@@ -128,8 +128,25 @@ export default function Dashboard() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {list.length === 0 && (
-                <div className="card" style={{ padding: 32, textAlign: 'center', color: 'var(--muted)', fontSize: 15 }}>Ничего не найдено по запросу «{query}»</div>
+              {list.length === 0 && query.trim() !== '' && (
+                <div className="card" style={{ padding: '46px 20px 50px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                  <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h5" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <circle cx="16.4" cy="16.4" r="3" />
+                    <line x1="18.6" y1="18.6" x2="21.5" y2="21.5" />
+                  </svg>
+                  <div style={{ fontSize: 15, color: 'var(--muted)', marginTop: 15, maxWidth: 300, lineHeight: 1.5 }}>Кандидаты не найдены. Попробуйте изменить запрос</div>
+                </div>
+              )}
+              {list.length === 0 && query.trim() === '' && (
+                <div className="card" style={{ padding: '46px 20px 50px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                  <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+                    <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+                  </svg>
+                  <div style={{ fontSize: 15, color: 'var(--muted)', marginTop: 15 }}>В этой вкладке пока нет кандидатов</div>
+                </div>
               )}
               {list.map((c, i) => {
                 const m = statusMeta(c.status)
