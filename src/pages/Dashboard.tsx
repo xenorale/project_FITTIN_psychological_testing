@@ -78,48 +78,48 @@ export default function Dashboard() {
   return (
     <div style={{ minHeight: '100vh' }}>
       <div className="topbar" style={{ position: 'sticky', top: 0, zIndex: 50 }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', gap: 18 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ maxWidth: 1236, margin: '0 auto', padding: '11px 22px', display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
             <Logo size={32} />
-            <div style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 16, color: '#fff' }}>СМИЛ<span style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 500 }}> / Кабинет HR</span></div>
+            <div style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15, color: '#fff' }}>СМИЛ<span style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 500 }}> / Кабинет HR</span></div>
           </div>
 
-          <div style={{ position: 'relative', flex: 1, maxWidth: 400, marginLeft: 12 }}>
-            <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#9498a0', display: 'flex' }}><SearchIcon /></span>
-            <input className="field" value={query} onChange={e => setQuery(e.target.value)} placeholder="Поиск по имени, почте, вакансии" style={{ paddingLeft: 38, padding: '9px 12px 9px 38px' }} />
+          <div style={{ position: 'relative', flex: 1, maxWidth: 380, marginLeft: 10 }}>
+            <span style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-52%)', color: '#9498a0', display: 'flex' }}><SearchIcon /></span>
+            <input className="field" value={query} onChange={e => setQuery(e.target.value)} placeholder="Поиск по имени, почте, вакансии" style={{ paddingLeft: 36, padding: '8px 12px 8px 36px' }} />
           </div>
 
           <div style={{ flex: 1 }} />
 
           <button className="btn btn-primary" onClick={() => setModal(true)}><PlusIcon /> Приглашение</button>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingLeft: 6, marginLeft: 4, borderLeft: '1px solid rgba(255,255,255,0.14)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingLeft: 6, marginLeft: 3, borderLeft: '1px solid rgba(255,255,255,0.14)' }}>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: '#fff' }}>{hrName}</div>
-              <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.45)' }}>рекрутер</div>
+              <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', lineHeight: 1.2 }}>{hrName}</div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>рекрутер</div>
             </div>
-            <div style={{ width: 36, height: 36, borderRadius: 8, background: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 13.5, color: '#fff' }}>{initials(hrName)}</div>
+            <div style={{ width: 36, height: 36, borderRadius: 8, background: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 15, color: '#fff' }}>{initials(hrName)}</div>
             <button className="btn btn-ghost" onClick={logout} style={{ padding: '9px 10px' }} title="Выйти"><LogoutIcon /></button>
           </div>
         </div>
       </div>
 
-      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '26px 24px 60px' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
-          <h1 style={{ fontSize: 23 }}>Кандидаты</h1>
-          <span style={{ color: 'var(--muted)', fontSize: 14 }}>{total} записей в базе</span>
+      <div style={{ maxWidth: 1236, margin: '0 auto', padding: '20px 22px 62px' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 17 }}>
+          <h1 style={{ fontSize: 22 }}>Кандидаты</h1>
+          <span style={{ color: 'var(--muted)', fontSize: 12 }}>{total} записей в базе</span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 26 }} className="stats-grid">
-          <Stat label="Всего кандидатов" value={total} icon={<IconUsers />} accent="#3a3d44" />
-          <Stat label="Завершили тест" value={done} icon={<IconCheck />} accent="#1f9d63" />
-          <Stat label="Проходят сейчас" value={going} icon={<IconClock />} accent="#2f6feb" />
-          <Stat label="Ожидают ответа" value={waiting} icon={<IconMail />} accent="#d98200" />
+        <div className="stats-grid" style={{ display: 'flex', gap: 13, marginBottom: 27 }}>
+          <Stat label="Всего кандидатов" value={total} icon={<IconUsers />} accent="#3a3d44" grow={1.3} minw={176} px={20} py={16} />
+          <Stat label="Завершили тест" value={done} icon={<IconCheck />} accent="#1f9d63" grow={1} minw={154} px={17} py={15} />
+          <Stat label="Проходят сейчас" value={going} icon={<IconClock />} accent="#2f6feb" grow={0.9} minw={150} px={16} py={15} />
+          <Stat label="Ожидают ответа" value={waiting} icon={<IconMail />} accent="#d98200" grow={1.1} minw={166} px={19} py={17} />
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.65fr 1fr', gap: 20 }} className="main-grid">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 298px', gap: 22 }} className="main-grid">
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 13, flexWrap: 'wrap' }}>
               <button className={'tabbtn' + (filter === 'all' ? ' active' : '')} onClick={() => setFilter('all')}>Все <Cnt n={allCandidates.length} active={filter === 'all'} /></button>
               <button className={'tabbtn' + (filter === 'completed' ? ' active' : '')} onClick={() => setFilter('completed')}>Завершены <Cnt n={done} active={filter === 'completed'} /></button>
               <button className={'tabbtn' + (filter === 'in_progress' ? ' active' : '')} onClick={() => setFilter('in_progress')}>Проходят <Cnt n={going} active={filter === 'in_progress'} /></button>
@@ -127,9 +127,9 @@ export default function Dashboard() {
               <button className={'tabbtn' + (filter === 'expired' ? ' active' : '')} onClick={() => setFilter('expired')}>Просрочены <Cnt n={allCandidates.filter(c => c.status === 'expired').length} active={filter === 'expired'} /></button>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {list.length === 0 && (
-                <div className="card" style={{ padding: 36, textAlign: 'center', color: 'var(--muted)' }}>Ничего не найдено по запросу «{query}»</div>
+                <div className="card" style={{ padding: 32, textAlign: 'center', color: 'var(--muted)', fontSize: 15 }}>Ничего не найдено по запросу «{query}»</div>
               )}
               {list.map((c, i) => {
                 const m = statusMeta(c.status)
@@ -137,23 +137,23 @@ export default function Dashboard() {
                 return (
                   <div key={c.id} onClick={() => openCandidate(c)}
                     className="card"
-                    style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 14, cursor: clickable ? 'pointer' : 'default' }}
+                    style={{ padding: '9px 14px', display: 'flex', alignItems: 'center', gap: 13, cursor: clickable ? 'pointer' : 'default' }}
                     onMouseEnter={e => { e.currentTarget.style.background = '#fafbfc'; e.currentTarget.style.borderColor = '#d0d3da' }}
                     onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = 'var(--line)' }}>
-                    <div style={{ width: 42, height: 42, borderRadius: 9, background: '#eef0f3', border: '1px solid #e2e4e9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 14.5, color: '#3a3d44', flexShrink: 0 }}>{initials(c.name)}</div>
+                    <div style={{ width: 38, height: 38, borderRadius: 8, background: '#eef0f3', border: '1px solid #e2e4e9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 15, color: '#3a3d44', flexShrink: 0 }}>{initials(c.name)}</div>
 
                     <div style={{ minWidth: 0, flex: 1 }}>
-                      <div style={{ fontWeight: 600, fontSize: 15, fontFamily: 'var(--font-head)' }}>{c.name}</div>
-                      <div style={{ fontSize: 12.5, color: 'var(--muted)', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.position} · {c.email}</div>
+                      <div style={{ fontWeight: 600, fontSize: 15, fontFamily: 'var(--font-head)', lineHeight: 1.25 }}>{c.name}</div>
+                      <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.position} · {c.email}</div>
                     </div>
 
                     {c.status === 'in_progress' && (
-                      <div style={{ width: 124, flexShrink: 0 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5, color: 'var(--muted)', marginBottom: 5 }}>
+                      <div style={{ width: 118, flexShrink: 0 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--muted)', marginBottom: 4 }}>
                           <span>{Math.round(c.answersDone / c.answersTotal * 100)}%</span>
                           <span>{c.answersDone}/{c.answersTotal}</span>
                         </div>
-                        <div style={{ height: 6, borderRadius: 4, background: '#eceef1', overflow: 'hidden' }}>
+                        <div style={{ height: 5, borderRadius: 4, background: '#eceef1', overflow: 'hidden' }}>
                           <div style={{ height: '100%', width: (c.answersDone / c.answersTotal * 100) + '%', background: 'var(--orange)', borderRadius: 4 }} />
                         </div>
                       </div>
@@ -167,9 +167,9 @@ export default function Dashboard() {
                       <span className="dot" style={{ background: m.color }} />{m.label}
                     </span>
 
-                    <div style={{ width: 96, textAlign: 'right', flexShrink: 0 }}>
+                    <div style={{ width: 84, textAlign: 'right', flexShrink: 0 }}>
                       {clickable ? (
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 13, fontWeight: 600, color: 'var(--orange)' }}>Профиль <ChevronIcon /></span>
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 12, fontWeight: 600, color: 'var(--orange)' }}>Профиль <ChevronIcon /></span>
                       ) : (
                         <span style={{ fontSize: 12, color: '#a2a6ae' }}>{c.status === 'invited' ? 'нет данных' : c.status === 'expired' ? 'истекло' : 'не завершён'}</span>
                       )}
@@ -180,36 +180,36 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div className="card" style={{ padding: 18 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 17 }}>
+            <div className="card" style={{ padding: '16px 17px 14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 13 }}>
                 <h3 style={{ fontSize: 15 }}>Активные приглашения</h3>
                 <span className="badge" style={{ color: 'var(--muted)', background: '#f2f3f5', borderColor: 'var(--line)' }}>{invites.filter(x => !x.used).length}</span>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
                 {invites.slice(0, 6).map(inv => (
-                  <div key={inv.id} style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '9px 10px', borderRadius: 8, border: '1px solid var(--line)', background: '#fafbfc' }}>
-                    <div style={{ width: 32, height: 32, borderRadius: 7, background: '#fff', border: '1px solid var(--line)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--orange)' }}><LinkIcon /></div>
+                  <div key={inv.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 9px', borderRadius: 8, border: '1px solid var(--line)', background: '#fafbfc' }}>
+                    <div style={{ width: 30, height: 30, borderRadius: 7, background: '#fff', border: '1px solid var(--line)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--orange)', flexShrink: 0 }}><LinkIcon /></div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{inv.candidate}</div>
-                      <div style={{ fontSize: 11.5, color: 'var(--muted)' }}>{inv.position}</div>
+                      <div style={{ fontSize: 15, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.25 }}>{inv.candidate}</div>
+                      <div style={{ fontSize: 12, color: 'var(--muted)' }}>{inv.position}</div>
                     </div>
                     {inv.used
-                      ? <span style={{ fontSize: 11.5, color: '#1f9d63', fontWeight: 600 }}>открыта</span>
-                      : <span style={{ fontSize: 11.5, color: '#d98200', fontWeight: 600 }}>ждёт</span>}
+                      ? <span style={{ fontSize: 12, color: '#1f9d63', fontWeight: 600 }}>открыта</span>
+                      : <span style={{ fontSize: 12, color: '#d98200', fontWeight: 600 }}>ждёт</span>}
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="card" style={{ padding: 18 }}>
-              <h3 style={{ fontSize: 15, marginBottom: 6 }}>Сверка с эталоном</h3>
-              <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 14 }}>Последняя сверка T-баллов с psytests.org — без расхождений по 13 шкалам.</p>
+            <div className="card" style={{ padding: '17px 18px 16px' }}>
+              <h3 style={{ fontSize: 15, marginBottom: 7 }}>Сверка с эталоном</h3>
+              <p style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 13 }}>Последняя сверка T-баллов с psytests.org — без расхождений по 13 шкалам.</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div style={{ flex: 1, height: 6, borderRadius: 4, background: '#eceef1', overflow: 'hidden' }}>
+                <div style={{ flex: 1, height: 5, borderRadius: 4, background: '#eceef1', overflow: 'hidden' }}>
                   <div style={{ height: '100%', width: '100%', background: '#1f9d63' }} />
                 </div>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#1f9d63' }}>13/13</span>
+                <span style={{ fontSize: 15, fontWeight: 700, color: '#1f9d63' }}>13/13</span>
               </div>
             </div>
           </div>
@@ -218,37 +218,37 @@ export default function Dashboard() {
 
       {modal && (
         <div onClick={closeModal} style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(20,22,26,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div onClick={e => e.stopPropagation()} className="card" style={{ width: '100%', maxWidth: 440, padding: 26, boxShadow: '0 20px 50px -12px rgba(0,0,0,0.25)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+          <div onClick={e => e.stopPropagation()} className="card" style={{ width: '100%', maxWidth: 438, padding: '24px 25px 26px', boxShadow: '0 20px 50px -12px rgba(0,0,0,0.25)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 19 }}>
               <div>
-                <h2 style={{ fontSize: 19 }}>Новое приглашение</h2>
-                <p style={{ color: 'var(--muted)', fontSize: 13, marginTop: 4 }}>Именная одноразовая ссылка для кандидата</p>
+                <h2 style={{ fontSize: 22 }}>Новое приглашение</h2>
+                <p style={{ color: 'var(--muted)', fontSize: 12, marginTop: 4 }}>Именная одноразовая ссылка для кандидата</p>
               </div>
               <button className="btn" onClick={closeModal} style={{ padding: 8, border: '1px solid var(--line)' }}><CloseIcon /></button>
             </div>
 
-            <label style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 6 }}>Имя кандидата</label>
-            <input className="field" value={invName} onChange={e => setInvName(e.target.value)} placeholder="Иван Иванов" style={{ marginBottom: 14 }} />
+            <label style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 6 }}>Имя кандидата</label>
+            <input className="field" value={invName} onChange={e => setInvName(e.target.value)} placeholder="Иван Иванов" style={{ marginBottom: 13 }} />
 
-            <label style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 6 }}>Почта</label>
-            <input className="field" value={invEmail} onChange={e => setInvEmail(e.target.value)} placeholder="ivan@example.com" style={{ marginBottom: 14 }} />
+            <label style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 6 }}>Почта</label>
+            <input className="field" value={invEmail} onChange={e => setInvEmail(e.target.value)} placeholder="ivan@example.com" style={{ marginBottom: 13 }} />
 
-            <label style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 6 }}>Вакансия</label>
-            <select value={invPos} onChange={e => setInvPos(e.target.value)} className="field" style={{ marginBottom: 20, cursor: 'pointer' }}>
+            <label style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 6 }}>Вакансия</label>
+            <select value={invPos} onChange={e => setInvPos(e.target.value)} className="field" style={{ marginBottom: 19, cursor: 'pointer' }}>
               {positionsList.map(p => <option key={p} value={p}>{p}</option>)}
             </select>
 
             {genLink === '' ? (
-              <button className="btn btn-primary" onClick={generate} style={{ width: '100%', justifyContent: 'center', padding: 12 }}><LinkIcon /> Сгенерировать ссылку</button>
+              <button className="btn btn-primary" onClick={generate} style={{ width: '100%', justifyContent: 'center', padding: 11 }}><LinkIcon /> Сгенерировать ссылку</button>
             ) : (
               <div>
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <input className="field" readOnly value={genLink} style={{ fontSize: 13, color: '#3a3d44' }} />
+                  <input className="field" readOnly value={genLink} style={{ fontSize: 12, color: '#3a3d44' }} />
                   <button className="btn" onClick={copyLink} style={{ flexShrink: 0, borderColor: copied ? '#bfe6d0' : 'var(--line2)', color: copied ? '#1f9d63' : 'var(--ink)' }}>
                     {copied ? <><CheckSmall /> Готово</> : <><CopyIcon /> Копировать</>}
                   </button>
                 </div>
-                <p style={{ fontSize: 12.5, color: 'var(--muted)', marginTop: 11, lineHeight: 1.5 }}>Ссылка одноразовая и привязана к кандидату. Отправьте её на почту — после прохождения профиль появится в списке.</p>
+                <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 11, lineHeight: 1.5 }}>Ссылка одноразовая и привязана к кандидату. Отправьте её на почту — после прохождения профиль появится в списке.</p>
               </div>
             )}
           </div>
@@ -260,19 +260,17 @@ export default function Dashboard() {
 
 function Stat(props: any) {
   return (
-    <div className="card" style={{ padding: '17px 18px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-        <div style={{ width: 38, height: 38, borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', color: props.accent, background: '#f2f3f5', border: '1px solid var(--line)' }}>{props.icon}</div>
-      </div>
-      <div style={{ fontSize: 32, fontFamily: 'var(--font-head)', fontWeight: 700, lineHeight: 1 }}>{props.value}</div>
-      <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 7 }}>{props.label}</div>
+    <div className="card" style={{ flex: props.grow + ' 1 auto', minWidth: props.minw, padding: props.py + 'px ' + props.px + 'px' }}>
+      <div style={{ width: 36, height: 36, borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', color: props.accent, background: '#f2f3f5', border: '1px solid var(--line)', marginBottom: 14 }}>{props.icon}</div>
+      <div style={{ fontSize: 22, fontFamily: 'var(--font-head)', fontWeight: 700, lineHeight: 1 }}>{props.value}</div>
+      <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 6 }}>{props.label}</div>
     </div>
   )
 }
 
 function Cnt(props: any) {
   return (
-    <span style={{ fontSize: 11.5, padding: '1px 7px', borderRadius: 20, background: props.active ? 'rgba(255,255,255,0.25)' : '#eceef1', color: props.active ? '#fff' : 'var(--muted)' }}>{props.n}</span>
+    <span style={{ fontSize: 12, padding: '0px 6px', borderRadius: 20, background: props.active ? 'rgba(255,255,255,0.25)' : '#eceef1', color: props.active ? '#fff' : 'var(--muted)' }}>{props.n}</span>
   )
 }
 

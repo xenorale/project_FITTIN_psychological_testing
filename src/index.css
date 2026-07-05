@@ -32,6 +32,7 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
+  font-size: 15px;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -88,15 +89,19 @@ h1, h2, h3, h4 {
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
+  gap: 7px;
+  padding: 9px 15px;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   transition: background 0.15s, border-color 0.15s, color 0.15s;
   border: 1px solid var(--line2);
   color: var(--ink);
   background: #fff;
+}
+
+.btn svg {
+  margin-top: -1px;
 }
 
 .btn:hover {
@@ -140,9 +145,9 @@ h1, h2, h3, h4 {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 10px;
+  padding: 3px 9px;
   border-radius: 6px;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   border: 1px solid transparent;
   white-space: nowrap;
@@ -152,16 +157,17 @@ h1, h2, h3, h4 {
   width: 7px;
   height: 7px;
   border-radius: 50%;
+  margin-top: 1px;
 }
 
 input.field, select.field {
   width: 100%;
-  padding: 11px 13px;
+  padding: 10px 12px;
   background: #fff;
   border: 1px solid var(--line2);
   border-radius: 8px;
   color: var(--ink);
-  font-size: 14px;
+  font-size: 15px;
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
@@ -185,9 +191,9 @@ select.field option {
 }
 
 .tabbtn {
-  padding: 8px 14px;
+  padding: 7px 12px;
   border-radius: 8px;
-  font-size: 13.5px;
+  font-size: 12px;
   font-weight: 600;
   border: 1px solid var(--line2);
   background: #fff;
@@ -195,7 +201,7 @@ select.field option {
   transition: all 0.15s;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 .tabbtn:hover {
   border-color: #bcc0c8;
@@ -213,7 +219,7 @@ select.field option {
 
 @media (max-width: 1080px) {
   .stats-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+    flex-wrap: wrap !important;
   }
   .main-grid {
     grid-template-columns: 1fr !important;
@@ -225,7 +231,7 @@ select.field option {
 
 @media (max-width: 860px) {
   .valid-grid {
-    grid-template-columns: 1fr !important;
+    flex-wrap: wrap !important;
   }
   .interp-grid {
     grid-template-columns: 1fr !important;
@@ -233,8 +239,8 @@ select.field option {
 }
 
 @media (max-width: 620px) {
-  .stats-grid {
-    grid-template-columns: 1fr !important;
+  .stats-grid > div {
+    min-width: 100% !important;
   }
 }
 

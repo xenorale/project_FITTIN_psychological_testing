@@ -30,23 +30,23 @@ export default function Login() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-      <div style={{ width: '100%', maxWidth: 380 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 22 }}>
+      <div style={{ width: '100%', maxWidth: 376 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
           <Logo size={40} />
           <div>
-            <div style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 17 }}>СМИЛ Платформа</div>
-            <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>Кабинет рекрутера · FITTIN</div>
+            <div style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15 }}>СМИЛ Платформа</div>
+            <div style={{ fontSize: 12, color: 'var(--muted)' }}>Кабинет рекрутера · FITTIN</div>
           </div>
         </div>
 
-        <form onSubmit={submit} className="card" style={{ padding: '28px 26px' }}>
-          <h2 style={{ fontSize: 21, marginBottom: 4 }}>Вход в кабинет</h2>
-          <p style={{ color: 'var(--muted)', fontSize: 13.5, marginBottom: 24 }}>Только для сотрудников HR-отдела</p>
+        <form onSubmit={submit} className="card" style={{ padding: '25px 24px 27px' }}>
+          <h2 style={{ fontSize: 22, marginBottom: 5 }}>Вход в кабинет</h2>
+          <p style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 22 }}>Только для сотрудников HR-отдела</p>
 
-          <label style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 7 }}>Рабочая почта</label>
-          <input className="field" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@fittin.ru" style={{ marginBottom: 16 }} />
+          <label style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 7 }}>Рабочая почта</label>
+          <input className="field" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@fittin.ru" style={{ marginBottom: 15 }} />
 
-          <label style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 7 }}>Пароль</label>
+          <label style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 7 }}>Пароль</label>
           <div style={{ position: 'relative', marginBottom: 8 }}>
             <input className="field" type={showPass ? 'text' : 'password'} value={pass} onChange={e => setPass(e.target.value)} placeholder="••••••••" style={{ paddingRight: 42 }} />
             <button type="button" onClick={() => setShowPass(!showPass)} style={{ position: 'absolute', right: 11, top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)', display: 'flex' }}>
@@ -55,19 +55,19 @@ export default function Login() {
           </div>
 
           {err !== '' && (
-            <div style={{ color: 'var(--red)', fontSize: 13, marginTop: 8, marginBottom: 2 }}>{err}</div>
+            <div style={{ color: 'var(--red)', fontSize: 12, marginTop: 8, marginBottom: 2 }}>{err}</div>
           )}
 
-          <button className="btn btn-primary" type="submit" disabled={loading} style={{ width: '100%', justifyContent: 'center', marginTop: 20, padding: '12px', opacity: loading ? 0.75 : 1 }}>
+          <button className="btn btn-primary" type="submit" disabled={loading} style={{ width: '100%', justifyContent: 'center', marginTop: 19, padding: '12px' }}>
             {loading ? <span style={{ width: 15, height: 15, border: '2px solid rgba(255,255,255,0.4)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} /> : 'Войти'}
           </button>
 
-          <div style={{ marginTop: 16, padding: '10px 12px', borderRadius: 8, background: '#f4f5f7', border: '1px solid var(--line)', fontSize: 12.5, color: 'var(--muted)' }}>
+          <div style={{ marginTop: 16, padding: '10px 12px', borderRadius: 8, background: '#f4f5f7', border: '1px solid var(--line)', fontSize: 12, color: 'var(--muted)' }}>
             Демо-доступ: любая почта и пароль.
           </div>
         </form>
 
-        <div style={{ fontSize: 12, color: '#9498a0', textAlign: 'center', marginTop: 18 }}>© 2026 FITTIN · внутренний инструмент найма</div>
+        <div style={{ fontSize: 12, color: '#9498a0', textAlign: 'center', marginTop: 17 }}>© 2026 FITTIN · внутренний инструмент найма</div>
       </div>
     </div>
   )

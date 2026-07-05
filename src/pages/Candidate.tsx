@@ -35,12 +35,12 @@ function TipBox(props: any) {
   if (!props.active || !props.payload || !props.payload.length) return null
   const d = props.payload[0].payload
   return (
-    <div style={{ background: '#fff', border: '1px solid #d5d8df', borderRadius: 8, padding: '10px 13px', boxShadow: '0 10px 26px -10px rgba(0,0,0,0.22)' }}>
+    <div style={{ background: '#fff', border: '1px solid #d5d8df', borderRadius: 8, padding: '9px 12px', boxShadow: '0 10px 26px -10px rgba(0,0,0,0.22)' }}>
       <div style={{ fontSize: 12, color: '#6d717a', marginBottom: 3 }}>Шкала {d.code}</div>
-      <div style={{ fontFamily: 'var(--font-head)', fontWeight: 600, fontSize: 14, marginBottom: 8, maxWidth: 210 }}>{d.name}</div>
-      <div style={{ display: 'flex', gap: 16 }}>
-        <div><span style={{ fontSize: 11.5, color: '#6d717a' }}>T-балл</span><div style={{ fontSize: 19, fontWeight: 700, fontFamily: 'var(--font-head)', color: tColor(d.t) }}>{d.t}</div></div>
-        <div><span style={{ fontSize: 11.5, color: '#6d717a' }}>сырой</span><div style={{ fontSize: 19, fontWeight: 700, fontFamily: 'var(--font-head)' }}>{d.raw}</div></div>
+      <div style={{ fontFamily: 'var(--font-head)', fontWeight: 600, fontSize: 15, marginBottom: 7, maxWidth: 205 }}>{d.name}</div>
+      <div style={{ display: 'flex', gap: 15 }}>
+        <div><span style={{ fontSize: 12, color: '#6d717a' }}>T-балл</span><div style={{ fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-head)', color: tColor(d.t) }}>{d.t}</div></div>
+        <div><span style={{ fontSize: 12, color: '#6d717a' }}>сырой</span><div style={{ fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-head)' }}>{d.raw}</div></div>
       </div>
     </div>
   )
@@ -55,8 +55,8 @@ export default function Candidate() {
 
   if (!person || !person.profile) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
-        <div style={{ color: 'var(--muted)' }}>Профиль недоступен — тест ещё не завершён.</div>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 15 }}>
+        <div style={{ color: 'var(--muted)', fontSize: 15 }}>Профиль недоступен — тест ещё не завершён.</div>
         <button className="btn" onClick={() => nav('/dashboard')}>← К списку</button>
       </div>
     )
@@ -80,7 +80,7 @@ export default function Candidate() {
   return (
     <div style={{ minHeight: '100vh' }}>
       <div className="topbar no-print" style={{ position: 'sticky', top: 0, zIndex: 50 }}>
-        <div style={{ maxWidth: 1140, margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', gap: 14 }}>
+        <div style={{ maxWidth: 1140, margin: '0 auto', padding: '11px 22px', display: 'flex', alignItems: 'center', gap: 13 }}>
           <button className="btn btn-ghost" onClick={() => nav('/dashboard')} style={{ padding: '9px 12px' }}><BackIcon /> Назад</button>
           <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginLeft: 2 }}>
             <Logo size={28} />
@@ -92,14 +92,14 @@ export default function Candidate() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1140, margin: '0 auto', padding: '24px 24px 70px' }}>
-        <div className="card" style={{ padding: '22px 24px', marginBottom: 18, display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
-          <div style={{ width: 64, height: 64, borderRadius: 12, background: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 22, color: '#fff' }}>{initials(person.name)}</div>
-          <div style={{ flex: 1, minWidth: 220 }}>
-            <h1 style={{ fontSize: 25 }}>{person.name}</h1>
-            <div style={{ color: 'var(--muted)', marginTop: 5, fontSize: 14 }}>{person.position} · {person.email}</div>
+      <div style={{ maxWidth: 1140, margin: '0 auto', padding: '20px 22px 66px' }}>
+        <div className="card" style={{ padding: '19px 24px', marginBottom: 22, display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+          <div style={{ width: 62, height: 62, borderRadius: 12, background: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 22, color: '#fff' }}>{initials(person.name)}</div>
+          <div style={{ flex: 1, minWidth: 210 }}>
+            <h1 style={{ fontSize: 22 }}>{person.name}</h1>
+            <div style={{ color: 'var(--muted)', marginTop: 4, fontSize: 12 }}>{person.position} · {person.email}</div>
           </div>
-          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 23, flexWrap: 'wrap' }}>
             <Meta label="Пройден" value={person.completedAt || '—'} />
             <Meta label="Длительность" value={person.durationMin + ' мин'} />
             <Meta label="Ответов" value={person.answersDone + ' / ' + person.answersTotal} />
@@ -107,41 +107,41 @@ export default function Candidate() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14, marginBottom: 18 }} className="valid-grid">
-          <ValidityCard code="L" title="Ложь" t={person.profile.L} desc="социальная желательность" />
-          <ValidityCard code="F" title="Достоверность" t={person.profile.F} desc="искренность ответов" />
-          <ValidityCard code="K" title="Коррекция" t={person.profile.K} desc="открытость / защита" />
+        <div style={{ display: 'flex', gap: 13, marginBottom: 16 }} className="valid-grid">
+          <ValidityCard code="L" title="Ложь" t={person.profile.L} desc="социальная желательность" grow={1.05} minw={205} />
+          <ValidityCard code="F" title="Достоверность" t={person.profile.F} desc="искренность ответов" grow={1.15} minw={218} />
+          <ValidityCard code="K" title="Коррекция" t={person.profile.K} desc="открытость / защита" grow={0.95} minw={198} />
         </div>
 
         {val === 'doubtful' && (
-          <div className="card" style={{ padding: '13px 17px', marginBottom: 18, display: 'flex', alignItems: 'center', gap: 12, borderColor: '#f5dcb0', background: '#fdf7ec' }}>
+          <div className="card" style={{ padding: '12px 17px', marginBottom: 21, display: 'flex', alignItems: 'center', gap: 12, borderColor: '#f5dcb0', background: '#fdf7ec' }}>
             <span style={{ color: '#d98200', display: 'flex', flexShrink: 0 }}><WarnIcon /></span>
-            <div style={{ fontSize: 13, color: '#8a6516', lineHeight: 1.5 }}>Шкалы достоверности выходят за пределы нормы — к интерпретации профиля стоит относиться с осторожностью, возможна установка на социально одобряемые ответы.</div>
+            <div style={{ fontSize: 12, color: '#8a6516', lineHeight: 1.5 }}>Шкалы достоверности выходят за пределы нормы — к интерпретации профиля стоит относиться с осторожностью, возможна установка на социально одобряемые ответы.</div>
           </div>
         )}
 
-        <div className="card" style={{ padding: '20px 22px 12px', marginBottom: 18 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6, flexWrap: 'wrap', gap: 12 }}>
+        <div className="card" style={{ padding: '19px 22px 12px', marginBottom: 22 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 5, flexWrap: 'wrap', gap: 12 }}>
             <div>
-              <h2 style={{ fontSize: 17 }}>Профиль СМИЛ</h2>
-              <p style={{ color: 'var(--muted)', fontSize: 13, marginTop: 3 }}>T-баллы по шкалам достоверности и базовым клиническим шкалам</p>
+              <h2 style={{ fontSize: 22 }}>Профиль СМИЛ</h2>
+              <p style={{ color: 'var(--muted)', fontSize: 12, marginTop: 3 }}>T-баллы по шкалам достоверности и базовым клиническим шкалам</p>
             </div>
-            <div style={{ display: 'flex', gap: 16, fontSize: 12.5, color: 'var(--muted)', paddingTop: 4 }}>
+            <div style={{ display: 'flex', gap: 15, fontSize: 12, color: 'var(--muted)', paddingTop: 5 }}>
               <Legend color="#1f9d63" text="норма 30–70" />
               <Legend color="#d98200" text="порог 70" dash />
               <Legend color="#dc4438" text="пик > 70" />
             </div>
           </div>
 
-          <div style={{ width: '100%', height: 330 }}>
+          <div style={{ width: '100%', height: 320 }}>
             <ResponsiveContainer>
-              <LineChart data={chartData} margin={{ top: 16, right: 12, left: -10, bottom: 4 }}>
+              <LineChart data={chartData} margin={{ top: 16, right: 10, left: -12, bottom: 4 }}>
                 <CartesianGrid stroke="#e8eaee" vertical={false} />
                 <ReferenceArea y1={30} y2={70} fill="#1f9d63" fillOpacity={0.06} />
                 <ReferenceLine y={50} stroke="#d5d8df" strokeDasharray="2 4" />
                 <ReferenceLine y={70} stroke="#d98200" strokeOpacity={0.7} strokeDasharray="5 5" />
-                <XAxis dataKey="code" tick={{ fill: '#3a3d44', fontSize: 13, fontFamily: 'Space Grotesk' }} axisLine={{ stroke: '#d5d8df' }} tickLine={false} />
-                <YAxis domain={[20, 110]} ticks={[30, 50, 70, 90, 110]} tick={{ fill: '#6d717a', fontSize: 12 }} axisLine={false} tickLine={false} width={38} />
+                <XAxis dataKey="code" tick={{ fill: '#3a3d44', fontSize: 12, fontFamily: 'Space Grotesk' }} axisLine={{ stroke: '#d5d8df' }} tickLine={false} />
+                <YAxis domain={[20, 110]} ticks={[30, 50, 70, 90, 110]} tick={{ fill: '#6d717a', fontSize: 12 }} axisLine={false} tickLine={false} width={36} />
                 <Tooltip content={<TipBox />} cursor={{ stroke: '#ff5a1f', strokeOpacity: 0.35, strokeWidth: 1 }} />
                 <Line type="monotone" dataKey="t" stroke="#ff5a1f" strokeWidth={2.6} dot={<CustomDot />} activeDot={{ r: 6, fill: '#ff5a1f', stroke: '#fff', strokeWidth: 2 }} />
               </LineChart>
@@ -149,23 +149,23 @@ export default function Candidate() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 18 }} className="bottom-grid">
-          <div className="card" style={{ padding: '20px 22px' }}>
-            <h2 style={{ fontSize: 16, marginBottom: 14 }}>Значения по шкалам</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '28px 1fr 52px 52px 84px', gap: 10, fontSize: 11, color: 'var(--muted)', padding: '0 8px 8px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                <span>№</span><span>Шкала</span><span style={{ textAlign: 'right' }}>Сырой</span><span style={{ textAlign: 'right' }}>T-балл</span><span></span>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 336px', gap: 20 }} className="bottom-grid">
+          <div className="card" style={{ padding: '18px 20px' }}>
+            <h2 style={{ fontSize: 15, marginBottom: 13 }}>Значения по шкалам</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '26px 1fr 46px 46px 76px', gap: 9, fontSize: 12, color: 'var(--muted)', padding: '0 8px 7px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                <span>№</span><span>Шкала</span><span style={{ textAlign: 'right' }}>Сырой</span><span style={{ textAlign: 'right' }}>T</span><span></span>
               </div>
               {scales.map(s => {
                 const t = person.profile[s.code]
                 const c = tColor(t)
                 return (
-                  <div key={s.code} style={{ display: 'grid', gridTemplateColumns: '28px 1fr 52px 52px 84px', gap: 10, alignItems: 'center', padding: '8px', borderRadius: 6, background: t >= 70 ? '#fdf3f2' : 'transparent' }}>
-                    <span style={{ fontFamily: 'var(--font-head)', fontWeight: 700, color: s.type === 'validity' ? 'var(--orange)' : 'var(--muted)' }}>{s.code}</span>
-                    <span style={{ fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.name}</span>
-                    <span style={{ textAlign: 'right', fontSize: 13, color: 'var(--muted)' }}>{person.raw[s.code]}</span>
-                    <span style={{ textAlign: 'right', fontSize: 14.5, fontWeight: 700, fontFamily: 'var(--font-head)', color: c }}>{t}</span>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div key={s.code} style={{ display: 'grid', gridTemplateColumns: '26px 1fr 46px 46px 76px', gap: 9, alignItems: 'center', padding: '5px 8px', borderRadius: 6, background: t >= 70 ? '#fdf3f2' : 'transparent' }}>
+                    <span style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15, color: s.type === 'validity' ? 'var(--orange)' : 'var(--muted)' }}>{s.code}</span>
+                    <span style={{ fontSize: 15, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.name}</span>
+                    <span style={{ textAlign: 'right', fontSize: 15, color: 'var(--muted)' }}>{person.raw[s.code]}</span>
+                    <span style={{ textAlign: 'right', fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-head)', color: c }}>{t}</span>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
                       <div style={{ flex: 1, height: 5, borderRadius: 4, background: '#eceef1', overflow: 'hidden' }}>
                         <div style={{ height: '100%', width: Math.min(100, (t / 110 * 100)) + '%', background: c, borderRadius: 4 }} />
                       </div>
@@ -176,16 +176,16 @@ export default function Candidate() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-            <div className="card" style={{ padding: '20px 22px' }}>
-              <h2 style={{ fontSize: 16, marginBottom: 4 }}>Ведущие шкалы</h2>
-              <p style={{ fontSize: 12.5, color: 'var(--muted)', marginBottom: 14 }}>Наиболее выраженные черты в профиле</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div className="card" style={{ padding: '18px 19px' }}>
+              <h2 style={{ fontSize: 15, marginBottom: 3 }}>Ведущие шкалы</h2>
+              <p style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 13 }}>Наиболее выраженные черты в профиле</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {leading.map(s => (
-                  <div key={s.code} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div style={{ width: 38, height: 38, borderRadius: 8, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15, color: tColor(person.profile[s.code]), background: '#f4f5f7', border: '1px solid var(--line)' }}>{s.code}</div>
+                  <div key={s.code} style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 8, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15, color: tColor(person.profile[s.code]), background: '#f4f5f7', border: '1px solid var(--line)' }}>{s.code}</div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 600 }}>{s.name}</div>
+                      <div style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.25 }}>{s.name}</div>
                       <div style={{ fontSize: 12, color: 'var(--muted)' }}>T = {person.profile[s.code]} · {tLabel(person.profile[s.code])}</div>
                     </div>
                   </div>
@@ -193,48 +193,48 @@ export default function Candidate() {
               </div>
             </div>
 
-            <div className="card" style={{ padding: '20px 22px' }}>
-              <h2 style={{ fontSize: 16, marginBottom: 12 }}>Резюме достоверности</h2>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '12px 14px', borderRadius: 8, border: '1px solid ' + (val === 'valid' ? '#bfe6d0' : '#f5dcb0'), background: val === 'valid' ? '#e7f6ee' : '#fdf7ec' }}>
+            <div className="card" style={{ padding: '18px 19px' }}>
+              <h2 style={{ fontSize: 15, marginBottom: 11 }}>Резюме достоверности</h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '11px 13px', borderRadius: 8, border: '1px solid ' + (val === 'valid' ? '#bfe6d0' : '#f5dcb0'), background: val === 'valid' ? '#e7f6ee' : '#fdf7ec' }}>
                 <span style={{ color: val === 'valid' ? '#1f9d63' : '#d98200', display: 'flex' }}>{val === 'valid' ? <ShieldOk /> : <WarnIcon />}</span>
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: 13.5, color: val === 'valid' ? '#1f9d63' : '#8a6516' }}>{val === 'valid' ? 'Профиль достоверен' : 'Достоверность под вопросом'}</div>
-                  <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 2 }}>по соотношению шкал L / F / K</div>
+                  <div style={{ fontWeight: 600, fontSize: 15, color: val === 'valid' ? '#1f9d63' : '#8a6516' }}>{val === 'valid' ? 'Профиль достоверен' : 'Достоверность под вопросом'}</div>
+                  <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 1 }}>по соотношению шкал L / F / K</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="card" style={{ padding: '20px 22px', marginTop: 18 }}>
-          <h2 style={{ fontSize: 17, marginBottom: 4 }}>Текстовая интерпретация</h2>
-          <p style={{ color: 'var(--muted)', fontSize: 13, marginBottom: 18 }}>Автоматически по повышенным шкалам профиля. Не является клиническим диагнозом.</p>
+        <div className="card" style={{ padding: '20px 22px', marginTop: 22 }}>
+          <h2 style={{ fontSize: 22, marginBottom: 4 }}>Текстовая интерпретация</h2>
+          <p style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 17 }}>Автоматически по повышенным шкалам профиля. Не является клиническим диагнозом.</p>
 
           {peaks.length === 0 ? (
-            <div style={{ color: 'var(--muted)', fontSize: 14 }}>Выраженных пиков (T &gt; 70) в профиле нет — усреднённый, сглаженный тип реагирования без явных акцентуаций.</div>
+            <div style={{ color: 'var(--muted)', fontSize: 15 }}>Выраженных пиков (T &gt; 70) в профиле нет — усреднённый, сглаженный тип реагирования без явных акцентуаций.</div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }} className="interp-grid">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 15 }} className="interp-grid">
               {peaks.map(s => (
-                <div key={s.code} style={{ padding: '16px 18px', borderRadius: 8, border: '1px solid var(--line)', background: '#fafbfc' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 9 }}>
-                    <span style={{ width: 28, height: 28, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, color: '#dc4438', background: '#fbeceb' }}>{s.code}</span>
-                    <span style={{ fontWeight: 600, fontSize: 14 }}>{s.name}</span>
-                    <span style={{ marginLeft: 'auto', fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-head)', color: '#dc4438' }}>T {person.profile[s.code]}</span>
+                <div key={s.code} style={{ padding: '15px 17px', borderRadius: 8, border: '1px solid var(--line)', background: '#fafbfc' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 8 }}>
+                    <span style={{ width: 28, height: 28, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15, color: '#dc4438', background: '#fbeceb' }}>{s.code}</span>
+                    <span style={{ fontWeight: 600, fontSize: 15 }}>{s.name}</span>
+                    <span style={{ marginLeft: 'auto', fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-head)', color: '#dc4438' }}>T {person.profile[s.code]}</span>
                   </div>
-                  <p style={{ fontSize: 13, color: '#4a4d54', lineHeight: 1.6 }}>{interpretations[s.code]}</p>
+                  <p style={{ fontSize: 15, color: '#4a4d54', lineHeight: 1.55 }}>{interpretations[s.code]}</p>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        <div style={{ marginTop: 22, fontSize: 12, color: '#9498a0', textAlign: 'center' }}>Методика СМИЛ (Л.Н. Собчик) · T-баллы сверены с эталоном psytests.org · сформировано автоматически</div>
+        <div style={{ marginTop: 26, fontSize: 12, color: '#9498a0', textAlign: 'center' }}>Методика СМИЛ (Л.Н. Собчик) · T-баллы сверены с эталоном psytests.org · сформировано автоматически</div>
       </div>
 
       {toast !== '' && (
-        <div className="no-print" style={{ position: 'fixed', bottom: 26, left: '50%', transform: 'translateX(-50%)', zIndex: 200, padding: '12px 20px', borderRadius: 9, background: '#1d1f24', color: '#fff', display: 'flex', alignItems: 'center', gap: 10, boxShadow: '0 12px 34px -12px rgba(0,0,0,0.4)' }}>
+        <div className="no-print" style={{ position: 'fixed', bottom: 26, left: '50%', transform: 'translateX(-50%)', zIndex: 200, padding: '11px 19px', borderRadius: 9, background: '#1d1f24', color: '#fff', display: 'flex', alignItems: 'center', gap: 10, boxShadow: '0 12px 34px -12px rgba(0,0,0,0.4)' }}>
           <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#ff5a1f' }} />
-          <span style={{ fontSize: 13.5 }}>{toast}</span>
+          <span style={{ fontSize: 15 }}>{toast}</span>
         </div>
       )}
     </div>
@@ -244,8 +244,8 @@ export default function Candidate() {
 function Meta(props: any) {
   return (
     <div>
-      <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{props.label}</div>
-      <div style={{ fontSize: 14.5, fontWeight: 600, fontFamily: 'var(--font-head)' }}>{props.value}</div>
+      <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 3, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{props.label}</div>
+      <div style={{ fontSize: 15, fontWeight: 600, fontFamily: 'var(--font-head)' }}>{props.value}</div>
     </div>
   )
 }
@@ -255,15 +255,15 @@ function ValidityCard(props: any) {
   const c = tColor(t)
   const ok = t >= 30 && t < 70
   return (
-    <div className="card" style={{ padding: '17px 19px', display: 'flex', alignItems: 'center', gap: 15 }}>
-      <div style={{ width: 50, height: 50, borderRadius: 10, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 21, color: c, background: '#f4f5f7', border: '1px solid var(--line)' }}>{props.code}</div>
+    <div className="card" style={{ flex: props.grow + ' 1 auto', minWidth: props.minw, padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
+      <div style={{ width: 48, height: 48, borderRadius: 10, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 22, color: c, background: '#f4f5f7', border: '1px solid var(--line)' }}>{props.code}</div>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 14.5, fontWeight: 600 }}>{props.title}</div>
+        <div style={{ fontSize: 15, fontWeight: 600 }}>{props.title}</div>
         <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 1 }}>{props.desc}</div>
       </div>
       <div style={{ textAlign: 'right' }}>
-        <div style={{ fontSize: 24, fontWeight: 700, fontFamily: 'var(--font-head)', color: c, lineHeight: 1 }}>{t}</div>
-        <div style={{ fontSize: 11.5, color: ok ? '#1f9d63' : '#d98200', marginTop: 4, fontWeight: 600 }}>{ok ? 'в норме' : 'вне нормы'}</div>
+        <div style={{ fontSize: 22, fontWeight: 700, fontFamily: 'var(--font-head)', color: c, lineHeight: 1 }}>{t}</div>
+        <div style={{ fontSize: 12, color: ok ? '#1f9d63' : '#d98200', marginTop: 4, fontWeight: 600 }}>{ok ? 'в норме' : 'вне нормы'}</div>
       </div>
     </div>
   )
@@ -271,8 +271,8 @@ function ValidityCard(props: any) {
 
 function Legend(props: any) {
   return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
-      <span style={{ width: 16, height: props.dash ? 0 : 3, borderRadius: 3, background: props.dash ? 'transparent' : props.color, borderTop: props.dash ? '2px dashed ' + props.color : 'none' }} />
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+      <span style={{ width: 15, height: props.dash ? 0 : 3, borderRadius: 3, background: props.dash ? 'transparent' : props.color, borderTop: props.dash ? '2px dashed ' + props.color : 'none' }} />
       {props.text}
     </span>
   )
