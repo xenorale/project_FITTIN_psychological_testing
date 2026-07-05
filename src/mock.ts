@@ -207,13 +207,79 @@ export const candidates: Candidate[] = [
     answersTotal: 566,
     profile: { L: 46, F: 49, K: 55, '1': 51, '2': 44, '3': 53, '4': 57, '5': 50, '6': 52, '7': 48, '8': 47, '9': 62, '0': 46 },
     raw: { L: 4, F: 6, K: 17, '1': 13, '2': 16, '3': 21, '4': 23, '5': 27, '6': 10, '7': 22, '8': 22, '9': 22, '0': 25 }
+  },
+  {
+    id: 'c-1051',
+    name: 'Тест Тестович',
+    email: 'test@test.ru',
+    position: 'Frontend-разработчик',
+    status: 'completed',
+    gender: 'm',
+    invitedAt: '2026-07-01',
+    completedAt: '2026-07-01',
+    durationMin: 3,
+    validity: 'doubtful',
+    answersDone: 566,
+    answersTotal: 566,
+    profile: { L: 52, F: 98, K: 43, '1': 84, '2': 89, '3': 78, '4': 86, '5': 61, '6': 91, '7': 88, '8': 94, '9': 76, '0': 72 },
+    raw: { L: 6, F: 26, K: 11, '1': 24, '2': 33, '3': 31, '4': 32, '5': 30, '6': 18, '7': 38, '8': 41, '9': 26, '0': 40 }
+  },
+  {
+    id: 'c-1052',
+    name: 'ааа ббб',
+    email: 'asdf@asdf.ru',
+    position: 'Frontend-разработчик',
+    status: 'in_progress',
+    gender: 'm',
+    invitedAt: '2026-07-05',
+    completedAt: null,
+    durationMin: null,
+    validity: null,
+    answersDone: 8,
+    answersTotal: 566,
+    profile: null,
+    raw: null
+  },
+  {
+    id: 'c-1053',
+    name: 'Проверка Связи',
+    email: 'test123@test.ru',
+    position: 'QA-инженер',
+    status: 'invited',
+    gender: 'f',
+    invitedAt: '2026-07-05',
+    completedAt: null,
+    durationMin: null,
+    validity: null,
+    answersDone: 0,
+    answersTotal: 566,
+    profile: null,
+    raw: null
+  },
+  {
+    id: 'c-1054',
+    name: 'Иван Петров',
+    email: 'IvanPetrov1998@MAIL.RU',
+    position: 'Backend-разработчик',
+    status: 'completed',
+    gender: 'm',
+    invitedAt: '2026-06-28',
+    completedAt: '2026-06-29',
+    durationMin: 51,
+    validity: 'valid',
+    answersDone: 566,
+    answersTotal: 566,
+    profile: { L: 49, F: 53, K: 50, '1': 55, '2': 52, '3': 57, '4': 61, '5': 47, '6': 58, '7': 56, '8': 54, '9': 66, '0': 49 },
+    raw: { L: 4, F: 8, K: 15, '1': 15, '2': 20, '3': 22, '4': 24, '5': 26, '6': 12, '7': 25, '8': 25, '9': 23, '0': 26 }
   }
 ]
 
 export const invites = [
   { id: 'inv-91', candidate: 'Полина Новикова', position: 'UX-дизайнер', token: 'a7f3c9d1e2', createdAt: '2026-07-04', used: false },
   { id: 'inv-92', candidate: 'Сергей Кузнецов', position: 'Backend-разработчик', token: 'b2e8f4a0c6', createdAt: '2026-07-05', used: false },
-  { id: 'inv-90', candidate: 'Екатерина Волкова', position: 'Продуктовый аналитик', token: '4c1d7b9e33', createdAt: '2026-07-03', used: true }
+  { id: 'inv-90', candidate: 'Екатерина Волкова', position: 'Продуктовый аналитик', token: '4c1d7b9e33', createdAt: '2026-07-03', used: true },
+  { id: 'inv-93', candidate: 'Проверка Связи', position: 'QA-инженер', token: 'test0000zz', createdAt: '2026-07-05', used: false },
+  { id: 'inv-94', candidate: 'ааа ббб', position: 'Frontend-разработчик', token: 'qwerty1234', createdAt: '2026-07-05', used: true }
 ]
 
 export const positionsList = [
