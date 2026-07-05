@@ -83,7 +83,7 @@ export default function Candidate() {
         <div style={{ maxWidth: 1140, margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', gap: 14 }}>
           <button className="btn btn-ghost" onClick={() => nav('/dashboard')} style={{ padding: '9px 12px' }}><BackIcon /> Назад</button>
           <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginLeft: 2 }}>
-            <img src="/logo.svg" width={28} height={28} alt="" />
+            <Logo size={28} />
             <div style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15, color: '#fff' }}>Карточка результата</div>
           </div>
           <div style={{ flex: 1 }} />
@@ -275,6 +275,16 @@ function Legend(props: any) {
       <span style={{ width: 16, height: props.dash ? 0 : 3, borderRadius: 3, background: props.dash ? 'transparent' : props.color, borderTop: props.dash ? '2px dashed ' + props.color : 'none' }} />
       {props.text}
     </span>
+  )
+}
+
+function Logo(props: any) {
+  return (
+    <svg width={props.size} height={props.size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="4" width="56" height="56" rx="14" fill="#ff5a1f" />
+      <path d="M14 41 L24 29 L32 37 L42 21 L50 31" stroke="#111214" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <circle cx="42" cy="21" r="4.2" fill="#111214" />
+    </svg>
   )
 }
 

@@ -32,7 +32,7 @@ export default function Login() {
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
       <div style={{ width: '100%', maxWidth: 380 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 22 }}>
-          <img src="/logo.svg" width={40} height={40} alt="logo" />
+          <Logo size={40} />
           <div>
             <div style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 17 }}>СМИЛ Платформа</div>
             <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>Кабинет рекрутера · FITTIN</div>
@@ -70,6 +70,16 @@ export default function Login() {
         <div style={{ fontSize: 12, color: '#9498a0', textAlign: 'center', marginTop: 18 }}>© 2026 FITTIN · внутренний инструмент найма</div>
       </div>
     </div>
+  )
+}
+
+function Logo(props: any) {
+  return (
+    <svg width={props.size} height={props.size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="4" width="56" height="56" rx="14" fill="#ff5a1f" />
+      <path d="M14 41 L24 29 L32 37 L42 21 L50 31" stroke="#111214" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <circle cx="42" cy="21" r="4.2" fill="#111214" />
+    </svg>
   )
 }
 

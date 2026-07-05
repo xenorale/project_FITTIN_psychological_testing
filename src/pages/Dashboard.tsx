@@ -80,7 +80,7 @@ export default function Dashboard() {
       <div className="topbar" style={{ position: 'sticky', top: 0, zIndex: 50 }}>
         <div style={{ maxWidth: 1240, margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', gap: 18 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <img src="/logo.svg" width={32} height={32} alt="" />
+            <Logo size={32} />
             <div style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 16, color: '#fff' }}>СМИЛ<span style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 500 }}> / Кабинет HR</span></div>
           </div>
 
@@ -273,6 +273,16 @@ function Stat(props: any) {
 function Cnt(props: any) {
   return (
     <span style={{ fontSize: 11.5, padding: '1px 7px', borderRadius: 20, background: props.active ? 'rgba(255,255,255,0.25)' : '#eceef1', color: props.active ? '#fff' : 'var(--muted)' }}>{props.n}</span>
+  )
+}
+
+function Logo(props: any) {
+  return (
+    <svg width={props.size} height={props.size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="4" width="56" height="56" rx="14" fill="#ff5a1f" />
+      <path d="M14 41 L24 29 L32 37 L42 21 L50 31" stroke="#111214" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <circle cx="42" cy="21" r="4.2" fill="#111214" />
+    </svg>
   )
 }
 
