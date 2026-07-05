@@ -10,9 +10,9 @@ function initials(name: string) {
 }
 
 function tColor(t: number) {
-  if (t >= 70) return '#fb6a7e'
-  if (t >= 60) return '#fbbf24'
-  return '#37d9a0'
+  if (t >= 70) return '#dc4438'
+  if (t >= 60) return '#d98200'
+  return '#1f9d63'
 }
 
 function tLabel(t: number) {
@@ -27,10 +27,7 @@ function CustomDot(props: any) {
   if (cx === undefined) return null
   const c = tColor(payload.t)
   return (
-    <g>
-      {payload.t >= 70 && <circle cx={cx} cy={cy} r={8} fill={c} opacity={0.22} />}
-      <circle cx={cx} cy={cy} r={4} fill="#0b0b14" stroke={c} strokeWidth={2.2} />
-    </g>
+    <circle cx={cx} cy={cy} r={4} fill="#fff" stroke={c} strokeWidth={2.4} />
   )
 }
 
@@ -38,12 +35,12 @@ function TipBox(props: any) {
   if (!props.active || !props.payload || !props.payload.length) return null
   const d = props.payload[0].payload
   return (
-    <div style={{ background: 'rgba(14,14,22,0.96)', border: '1px solid rgba(124,92,255,0.4)', borderRadius: 12, padding: '11px 14px', boxShadow: '0 12px 30px -10px rgba(0,0,0,0.7)' }}>
-      <div style={{ fontSize: 12, color: '#8b8b9e', marginBottom: 3 }}>Шкала {d.code}</div>
+    <div style={{ background: '#fff', border: '1px solid #d5d8df', borderRadius: 8, padding: '10px 13px', boxShadow: '0 10px 26px -10px rgba(0,0,0,0.22)' }}>
+      <div style={{ fontSize: 12, color: '#6d717a', marginBottom: 3 }}>Шкала {d.code}</div>
       <div style={{ fontFamily: 'var(--font-head)', fontWeight: 600, fontSize: 14, marginBottom: 8, maxWidth: 210 }}>{d.name}</div>
       <div style={{ display: 'flex', gap: 16 }}>
-        <div><span style={{ fontSize: 11.5, color: '#8b8b9e' }}>T-балл</span><div style={{ fontSize: 19, fontWeight: 700, fontFamily: 'var(--font-head)', color: tColor(d.t) }}>{d.t}</div></div>
-        <div><span style={{ fontSize: 11.5, color: '#8b8b9e' }}>сырой</span><div style={{ fontSize: 19, fontWeight: 700, fontFamily: 'var(--font-head)' }}>{d.raw}</div></div>
+        <div><span style={{ fontSize: 11.5, color: '#6d717a' }}>T-балл</span><div style={{ fontSize: 19, fontWeight: 700, fontFamily: 'var(--font-head)', color: tColor(d.t) }}>{d.t}</div></div>
+        <div><span style={{ fontSize: 11.5, color: '#6d717a' }}>сырой</span><div style={{ fontSize: 19, fontWeight: 700, fontFamily: 'var(--font-head)' }}>{d.raw}</div></div>
       </div>
     </div>
   )
@@ -58,7 +55,7 @@ export default function Candidate() {
 
   if (!person || !person.profile) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 18 }}>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
         <div style={{ color: 'var(--muted)' }}>Профиль недоступен — тест ещё не завершён.</div>
         <button className="btn" onClick={() => nav('/dashboard')}>← К списку</button>
       </div>
@@ -75,108 +72,102 @@ export default function Candidate() {
     setTimeout(() => {
       setToast('')
       window.print()
-    }, 600)
+    }, 500)
   }
 
   const val = person.validity
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      <div className="no-print" style={{ position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(16px)', background: 'rgba(7,7,12,0.72)', borderBottom: '1px solid var(--border)' }}>
-        <div style={{ maxWidth: 1140, margin: '0 auto', padding: '15px 28px', display: 'flex', alignItems: 'center', gap: 16 }}>
-          <button className="btn btn-ghost" onClick={() => nav('/dashboard')} style={{ padding: '9px 14px' }}><BackIcon /> Назад</button>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 4 }}>
-            <img src="/logo.svg" width={30} height={30} alt="" />
-            <div style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15.5 }}>Карточка результата</div>
+      <div className="topbar no-print" style={{ position: 'sticky', top: 0, zIndex: 50 }}>
+        <div style={{ maxWidth: 1140, margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', gap: 14 }}>
+          <button className="btn btn-ghost" onClick={() => nav('/dashboard')} style={{ padding: '9px 12px' }}><BackIcon /> Назад</button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginLeft: 2 }}>
+            <img src="/logo.svg" width={28} height={28} alt="" />
+            <div style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15, color: '#fff' }}>Карточка результата</div>
           </div>
           <div style={{ flex: 1 }} />
-          <button className="btn" onClick={() => setToast('Ссылка на профиль скопирована')} style={{ padding: '10px 15px' }}><ShareIcon /> Поделиться</button>
+          <button className="btn btn-ghost" onClick={() => setToast('Ссылка на профиль скопирована')} style={{ padding: '9px 12px' }}><ShareIcon /> Поделиться</button>
           <button className="btn btn-primary" onClick={exportPdf}><DownloadIcon /> Экспорт PDF</button>
         </div>
       </div>
 
-      <div style={{ maxWidth: 1140, margin: '0 auto', padding: '30px 28px 80px' }}>
-        <div className="glass fade-up" style={{ padding: '26px 28px', marginBottom: 22, display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-          <div style={{ width: 68, height: 68, borderRadius: 18, background: 'linear-gradient(135deg,#7c5cff,#22d3ee)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 24, color: '#0a0a12' }}>{initials(person.name)}</div>
+      <div style={{ maxWidth: 1140, margin: '0 auto', padding: '24px 24px 70px' }}>
+        <div className="card" style={{ padding: '22px 24px', marginBottom: 18, display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
+          <div style={{ width: 64, height: 64, borderRadius: 12, background: 'var(--orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 22, color: '#fff' }}>{initials(person.name)}</div>
           <div style={{ flex: 1, minWidth: 220 }}>
-            <h1 style={{ fontSize: 28 }}>{person.name}</h1>
-            <div style={{ color: 'var(--muted)', marginTop: 5, fontSize: 14.5 }}>{person.position} · {person.email}</div>
+            <h1 style={{ fontSize: 25 }}>{person.name}</h1>
+            <div style={{ color: 'var(--muted)', marginTop: 5, fontSize: 14 }}>{person.position} · {person.email}</div>
           </div>
-          <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <Meta label="Пройден" value={person.completedAt || '—'} />
             <Meta label="Длительность" value={person.durationMin + ' мин'} />
             <Meta label="Ответов" value={person.answersDone + ' / ' + person.answersTotal} />
-            <Meta label="Пол формы" value={person.gender === 'f' ? 'женская' : 'мужская'} />
+            <Meta label="Форма" value={person.gender === 'f' ? 'женская' : 'мужская'} />
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginBottom: 22 }} className="valid-grid">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14, marginBottom: 18 }} className="valid-grid">
           <ValidityCard code="L" title="Ложь" t={person.profile.L} desc="социальная желательность" />
           <ValidityCard code="F" title="Достоверность" t={person.profile.F} desc="искренность ответов" />
           <ValidityCard code="K" title="Коррекция" t={person.profile.K} desc="открытость / защита" />
         </div>
 
         {val === 'doubtful' && (
-          <div className="glass" style={{ padding: '15px 19px', marginBottom: 22, display: 'flex', alignItems: 'center', gap: 13, borderColor: 'rgba(251,191,36,0.35)', background: 'rgba(251,191,36,0.06)' }}>
-            <span style={{ color: 'var(--amber)', display: 'flex', flexShrink: 0 }}><WarnIcon /></span>
-            <div style={{ fontSize: 13.5, color: '#d9cfa6', lineHeight: 1.5 }}>Шкалы достоверности выходят за пределы нормы — к интерпретации профиля стоит относиться с осторожностью, возможна установка на социально одобряемые ответы.</div>
+          <div className="card" style={{ padding: '13px 17px', marginBottom: 18, display: 'flex', alignItems: 'center', gap: 12, borderColor: '#f5dcb0', background: '#fdf7ec' }}>
+            <span style={{ color: '#d98200', display: 'flex', flexShrink: 0 }}><WarnIcon /></span>
+            <div style={{ fontSize: 13, color: '#8a6516', lineHeight: 1.5 }}>Шкалы достоверности выходят за пределы нормы — к интерпретации профиля стоит относиться с осторожностью, возможна установка на социально одобряемые ответы.</div>
           </div>
         )}
 
-        <div className="glass fade-up" style={{ padding: '24px 26px 14px', marginBottom: 22 }}>
+        <div className="card" style={{ padding: '20px 22px 12px', marginBottom: 18 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6, flexWrap: 'wrap', gap: 12 }}>
             <div>
-              <h2 style={{ fontSize: 19 }}>Профиль СМИЛ</h2>
-              <p style={{ color: 'var(--muted)', fontSize: 13.5, marginTop: 4 }}>T-баллы по шкалам достоверности и базовым клиническим шкалам</p>
+              <h2 style={{ fontSize: 17 }}>Профиль СМИЛ</h2>
+              <p style={{ color: 'var(--muted)', fontSize: 13, marginTop: 3 }}>T-баллы по шкалам достоверности и базовым клиническим шкалам</p>
             </div>
-            <div style={{ display: 'flex', gap: 18, fontSize: 12.5, color: 'var(--muted)', paddingTop: 4 }}>
-              <Legend color="#37d9a0" text="норма 30–70" />
-              <Legend color="#fbbf24" text="порог 70" dash />
-              <Legend color="#fb6a7e" text="пик > 70" />
+            <div style={{ display: 'flex', gap: 16, fontSize: 12.5, color: 'var(--muted)', paddingTop: 4 }}>
+              <Legend color="#1f9d63" text="норма 30–70" />
+              <Legend color="#d98200" text="порог 70" dash />
+              <Legend color="#dc4438" text="пик > 70" />
             </div>
           </div>
 
-          <div style={{ width: '100%', height: 340 }}>
+          <div style={{ width: '100%', height: 330 }}>
             <ResponsiveContainer>
-              <LineChart data={chartData} margin={{ top: 18, right: 12, left: -8, bottom: 4 }}>
-                <defs>
-                  <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#22d3ee" />
-                    <stop offset="100%" stopColor="#7c5cff" />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid stroke="rgba(255,255,255,0.05)" vertical={false} />
-                <ReferenceArea y1={30} y2={70} fill="#37d9a0" fillOpacity={0.05} />
-                <ReferenceLine y={50} stroke="rgba(255,255,255,0.14)" strokeDasharray="2 4" />
-                <ReferenceLine y={70} stroke="#fbbf24" strokeOpacity={0.5} strokeDasharray="5 5" />
-                <XAxis dataKey="code" tick={{ fill: '#8b8b9e', fontSize: 13, fontFamily: 'Space Grotesk' }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickLine={false} />
-                <YAxis domain={[20, 110]} ticks={[30, 50, 70, 90, 110]} tick={{ fill: '#8b8b9e', fontSize: 12 }} axisLine={false} tickLine={false} width={38} />
-                <Tooltip content={<TipBox />} cursor={{ stroke: 'rgba(124,92,255,0.4)', strokeWidth: 1 }} />
-                <Line type="monotone" dataKey="t" stroke="url(#lineGrad)" strokeWidth={2.6} dot={<CustomDot />} activeDot={{ r: 6, fill: '#fff', stroke: '#7c5cff', strokeWidth: 2 }} />
+              <LineChart data={chartData} margin={{ top: 16, right: 12, left: -10, bottom: 4 }}>
+                <CartesianGrid stroke="#e8eaee" vertical={false} />
+                <ReferenceArea y1={30} y2={70} fill="#1f9d63" fillOpacity={0.06} />
+                <ReferenceLine y={50} stroke="#d5d8df" strokeDasharray="2 4" />
+                <ReferenceLine y={70} stroke="#d98200" strokeOpacity={0.7} strokeDasharray="5 5" />
+                <XAxis dataKey="code" tick={{ fill: '#3a3d44', fontSize: 13, fontFamily: 'Space Grotesk' }} axisLine={{ stroke: '#d5d8df' }} tickLine={false} />
+                <YAxis domain={[20, 110]} ticks={[30, 50, 70, 90, 110]} tick={{ fill: '#6d717a', fontSize: 12 }} axisLine={false} tickLine={false} width={38} />
+                <Tooltip content={<TipBox />} cursor={{ stroke: '#ff5a1f', strokeOpacity: 0.35, strokeWidth: 1 }} />
+                <Line type="monotone" dataKey="t" stroke="#ff5a1f" strokeWidth={2.6} dot={<CustomDot />} activeDot={{ r: 6, fill: '#ff5a1f', stroke: '#fff', strokeWidth: 2 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 22 }} className="bottom-grid">
-          <div className="glass" style={{ padding: '22px 24px' }}>
-            <h2 style={{ fontSize: 18, marginBottom: 16 }}>Значения по шкалам</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '30px 1fr 56px 56px 90px', gap: 10, fontSize: 11.5, color: 'var(--muted)', padding: '0 8px 8px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 18 }} className="bottom-grid">
+          <div className="card" style={{ padding: '20px 22px' }}>
+            <h2 style={{ fontSize: 16, marginBottom: 14 }}>Значения по шкалам</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '28px 1fr 52px 52px 84px', gap: 10, fontSize: 11, color: 'var(--muted)', padding: '0 8px 8px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 <span>№</span><span>Шкала</span><span style={{ textAlign: 'right' }}>Сырой</span><span style={{ textAlign: 'right' }}>T-балл</span><span></span>
               </div>
               {scales.map(s => {
                 const t = person.profile[s.code]
                 const c = tColor(t)
                 return (
-                  <div key={s.code} style={{ display: 'grid', gridTemplateColumns: '30px 1fr 56px 56px 90px', gap: 10, alignItems: 'center', padding: '9px 8px', borderRadius: 10, background: t >= 70 ? 'rgba(251,106,126,0.05)' : 'transparent' }}>
-                    <span style={{ fontFamily: 'var(--font-head)', fontWeight: 700, color: s.type === 'validity' ? 'var(--cyan)' : 'var(--muted)' }}>{s.code}</span>
-                    <span style={{ fontSize: 13.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.name}</span>
-                    <span style={{ textAlign: 'right', fontSize: 13.5, color: 'var(--muted)' }}>{person.raw[s.code]}</span>
-                    <span style={{ textAlign: 'right', fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-head)', color: c }}>{t}</span>
+                  <div key={s.code} style={{ display: 'grid', gridTemplateColumns: '28px 1fr 52px 52px 84px', gap: 10, alignItems: 'center', padding: '8px', borderRadius: 6, background: t >= 70 ? '#fdf3f2' : 'transparent' }}>
+                    <span style={{ fontFamily: 'var(--font-head)', fontWeight: 700, color: s.type === 'validity' ? 'var(--orange)' : 'var(--muted)' }}>{s.code}</span>
+                    <span style={{ fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.name}</span>
+                    <span style={{ textAlign: 'right', fontSize: 13, color: 'var(--muted)' }}>{person.raw[s.code]}</span>
+                    <span style={{ textAlign: 'right', fontSize: 14.5, fontWeight: 700, fontFamily: 'var(--font-head)', color: c }}>{t}</span>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <div style={{ flex: 1, height: 5, borderRadius: 8, background: 'rgba(255,255,255,0.07)', overflow: 'hidden' }}>
-                        <div style={{ height: '100%', width: Math.min(100, (t / 110 * 100)) + '%', background: c, borderRadius: 8 }} />
+                      <div style={{ flex: 1, height: 5, borderRadius: 4, background: '#eceef1', overflow: 'hidden' }}>
+                        <div style={{ height: '100%', width: Math.min(100, (t / 110 * 100)) + '%', background: c, borderRadius: 4 }} />
                       </div>
                     </div>
                   </div>
@@ -185,16 +176,16 @@ export default function Candidate() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
-            <div className="glass" style={{ padding: '22px 24px' }}>
-              <h2 style={{ fontSize: 18, marginBottom: 6 }}>Ведущие шкалы</h2>
-              <p style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 16 }}>Наиболее выраженные черты в профиле</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            <div className="card" style={{ padding: '20px 22px' }}>
+              <h2 style={{ fontSize: 16, marginBottom: 4 }}>Ведущие шкалы</h2>
+              <p style={{ fontSize: 12.5, color: 'var(--muted)', marginBottom: 14 }}>Наиболее выраженные черты в профиле</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
                 {leading.map(s => (
-                  <div key={s.code} style={{ display: 'flex', alignItems: 'center', gap: 13 }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 11, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 16, color: tColor(person.profile[s.code]), background: tColor(person.profile[s.code]) + '1c', border: '1px solid ' + tColor(person.profile[s.code]) + '38' }}>{s.code}</div>
+                  <div key={s.code} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{ width: 38, height: 38, borderRadius: 8, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15, color: tColor(person.profile[s.code]), background: '#f4f5f7', border: '1px solid var(--line)' }}>{s.code}</div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13.5, fontWeight: 600 }}>{s.name}</div>
+                      <div style={{ fontSize: 13, fontWeight: 600 }}>{s.name}</div>
                       <div style={{ fontSize: 12, color: 'var(--muted)' }}>T = {person.profile[s.code]} · {tLabel(person.profile[s.code])}</div>
                     </div>
                   </div>
@@ -202,48 +193,48 @@ export default function Candidate() {
               </div>
             </div>
 
-            <div className="glass spotlight" style={{ padding: '22px 24px' }}>
-              <h2 style={{ fontSize: 18, marginBottom: 14 }}>Резюме достоверности</h2>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '13px 15px', borderRadius: 13, border: '1px solid ' + (val === 'valid' ? 'rgba(55,217,160,0.3)' : 'rgba(251,191,36,0.3)'), background: val === 'valid' ? 'rgba(55,217,160,0.06)' : 'rgba(251,191,36,0.06)' }}>
-                <span style={{ color: val === 'valid' ? 'var(--green)' : 'var(--amber)', display: 'flex' }}>{val === 'valid' ? <ShieldOk /> : <WarnIcon />}</span>
+            <div className="card" style={{ padding: '20px 22px' }}>
+              <h2 style={{ fontSize: 16, marginBottom: 12 }}>Резюме достоверности</h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '12px 14px', borderRadius: 8, border: '1px solid ' + (val === 'valid' ? '#bfe6d0' : '#f5dcb0'), background: val === 'valid' ? '#e7f6ee' : '#fdf7ec' }}>
+                <span style={{ color: val === 'valid' ? '#1f9d63' : '#d98200', display: 'flex' }}>{val === 'valid' ? <ShieldOk /> : <WarnIcon />}</span>
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: 14, color: val === 'valid' ? 'var(--green)' : 'var(--amber)' }}>{val === 'valid' ? 'Профиль достоверен' : 'Достоверность под вопросом'}</div>
-                  <div style={{ fontSize: 12.5, color: 'var(--muted)', marginTop: 2 }}>по соотношению шкал L / F / K</div>
+                  <div style={{ fontWeight: 600, fontSize: 13.5, color: val === 'valid' ? '#1f9d63' : '#8a6516' }}>{val === 'valid' ? 'Профиль достоверен' : 'Достоверность под вопросом'}</div>
+                  <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 2 }}>по соотношению шкал L / F / K</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="glass fade-up" style={{ padding: '24px 26px', marginTop: 22 }}>
-          <h2 style={{ fontSize: 19, marginBottom: 6 }}>Текстовая интерпретация</h2>
-          <p style={{ color: 'var(--muted)', fontSize: 13.5, marginBottom: 20 }}>Автоматически по повышенным шкалам профиля. Не является клиническим диагнозом.</p>
+        <div className="card" style={{ padding: '20px 22px', marginTop: 18 }}>
+          <h2 style={{ fontSize: 17, marginBottom: 4 }}>Текстовая интерпретация</h2>
+          <p style={{ color: 'var(--muted)', fontSize: 13, marginBottom: 18 }}>Автоматически по повышенным шкалам профиля. Не является клиническим диагнозом.</p>
 
           {peaks.length === 0 ? (
             <div style={{ color: 'var(--muted)', fontSize: 14 }}>Выраженных пиков (T &gt; 70) в профиле нет — усреднённый, сглаженный тип реагирования без явных акцентуаций.</div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="interp-grid">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }} className="interp-grid">
               {peaks.map(s => (
-                <div key={s.code} style={{ padding: '17px 19px', borderRadius: 15, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.015)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                    <span style={{ width: 30, height: 30, borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, color: '#fb6a7e', background: 'rgba(251,106,126,0.14)' }}>{s.code}</span>
-                    <span style={{ fontWeight: 600, fontSize: 14.5 }}>{s.name}</span>
-                    <span style={{ marginLeft: 'auto', fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-head)', color: '#fb6a7e' }}>T {person.profile[s.code]}</span>
+                <div key={s.code} style={{ padding: '16px 18px', borderRadius: 8, border: '1px solid var(--line)', background: '#fafbfc' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 9 }}>
+                    <span style={{ width: 28, height: 28, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, color: '#dc4438', background: '#fbeceb' }}>{s.code}</span>
+                    <span style={{ fontWeight: 600, fontSize: 14 }}>{s.name}</span>
+                    <span style={{ marginLeft: 'auto', fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-head)', color: '#dc4438' }}>T {person.profile[s.code]}</span>
                   </div>
-                  <p style={{ fontSize: 13.5, color: '#b9b9c8', lineHeight: 1.6 }}>{interpretations[s.code]}</p>
+                  <p style={{ fontSize: 13, color: '#4a4d54', lineHeight: 1.6 }}>{interpretations[s.code]}</p>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        <div style={{ marginTop: 26, fontSize: 12.5, color: '#5a5a6e', textAlign: 'center' }}>Методика СМИЛ (Л.Н. Собчик) · T-баллы сверены с эталоном psytests.org · сформировано автоматически</div>
+        <div style={{ marginTop: 22, fontSize: 12, color: '#9498a0', textAlign: 'center' }}>Методика СМИЛ (Л.Н. Собчик) · T-баллы сверены с эталоном psytests.org · сформировано автоматически</div>
       </div>
 
       {toast !== '' && (
-        <div className="no-print" style={{ position: 'fixed', bottom: 28, left: '50%', transform: 'translateX(-50%)', zIndex: 200, padding: '13px 22px', borderRadius: 13, background: 'rgba(14,14,22,0.95)', border: '1px solid rgba(124,92,255,0.4)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', gap: 10, boxShadow: '0 14px 40px -12px rgba(0,0,0,0.7)' }}>
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--cyan)', boxShadow: '0 0 10px var(--cyan)' }} />
-          <span style={{ fontSize: 14 }}>{toast}</span>
+        <div className="no-print" style={{ position: 'fixed', bottom: 26, left: '50%', transform: 'translateX(-50%)', zIndex: 200, padding: '12px 20px', borderRadius: 9, background: '#1d1f24', color: '#fff', display: 'flex', alignItems: 'center', gap: 10, boxShadow: '0 12px 34px -12px rgba(0,0,0,0.4)' }}>
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#ff5a1f' }} />
+          <span style={{ fontSize: 13.5 }}>{toast}</span>
         </div>
       )}
     </div>
@@ -253,8 +244,8 @@ export default function Candidate() {
 function Meta(props: any) {
   return (
     <div>
-      <div style={{ fontSize: 11.5, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{props.label}</div>
-      <div style={{ fontSize: 15, fontWeight: 600, fontFamily: 'var(--font-head)' }}>{props.value}</div>
+      <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{props.label}</div>
+      <div style={{ fontSize: 14.5, fontWeight: 600, fontFamily: 'var(--font-head)' }}>{props.value}</div>
     </div>
   )
 }
@@ -264,17 +255,15 @@ function ValidityCard(props: any) {
   const c = tColor(t)
   const ok = t >= 30 && t < 70
   return (
-    <div className="glass spotlight" style={{ padding: '19px 21px', transition: 'transform 0.22s', display: 'flex', alignItems: 'center', gap: 16 }}
-      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)' }}
-      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}>
-      <div style={{ width: 54, height: 54, borderRadius: 15, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 22, color: c, background: c + '18', border: '1px solid ' + c + '38' }}>{props.code}</div>
+    <div className="card" style={{ padding: '17px 19px', display: 'flex', alignItems: 'center', gap: 15 }}>
+      <div style={{ width: 50, height: 50, borderRadius: 10, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 21, color: c, background: '#f4f5f7', border: '1px solid var(--line)' }}>{props.code}</div>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 15, fontWeight: 600 }}>{props.title}</div>
+        <div style={{ fontSize: 14.5, fontWeight: 600 }}>{props.title}</div>
         <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 1 }}>{props.desc}</div>
       </div>
       <div style={{ textAlign: 'right' }}>
-        <div style={{ fontSize: 26, fontWeight: 700, fontFamily: 'var(--font-head)', color: c, lineHeight: 1 }}>{t}</div>
-        <div style={{ fontSize: 11.5, color: ok ? 'var(--green)' : 'var(--amber)', marginTop: 4 }}>{ok ? 'в норме' : 'вне нормы'}</div>
+        <div style={{ fontSize: 24, fontWeight: 700, fontFamily: 'var(--font-head)', color: c, lineHeight: 1 }}>{t}</div>
+        <div style={{ fontSize: 11.5, color: ok ? '#1f9d63' : '#d98200', marginTop: 4, fontWeight: 600 }}>{ok ? 'в норме' : 'вне нормы'}</div>
       </div>
     </div>
   )
