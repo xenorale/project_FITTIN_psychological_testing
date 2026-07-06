@@ -21,7 +21,7 @@ services:
   backend:
     build: .
     restart: unless-stopped
-    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    command: sh -c "python -m alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
     environment:
       DATABASE_URL: postgresql://fittin:fittin@db:5432/fittin
       JWT_SECRET: super-secret-key-change-me
