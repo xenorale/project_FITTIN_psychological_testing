@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import auth, invites
+from app.routers import auth, invites, candidates
 
 app = FastAPI(title="FITTIN SMIL backend")
 
@@ -15,6 +15,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(invites.router)
+app.include_router(candidates.router)
 
 
 @app.get("/api/health")

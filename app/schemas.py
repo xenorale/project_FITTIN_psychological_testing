@@ -47,3 +47,21 @@ class SubmitPayload(BaseModel):
 
 class SubmitResponse(BaseModel):
     ok: bool
+
+
+class CandidateOut(BaseModel):
+    id: str
+    name: str
+    email: str
+    position: str
+    status: str
+    gender: str
+    invitedAt: Optional[str]
+    completedAt: Optional[str]
+    durationMin: Optional[int]
+    validity: Optional[str]
+    answersDone: int
+    answersTotal: int
+    profile: Optional[dict]
+    raw: Optional[dict]
+    interpretation: Optional[List[dict]]
