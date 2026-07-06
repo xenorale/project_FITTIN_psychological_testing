@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -8,6 +8,7 @@ from app.models import Candidate, Answer
 from app.schemas import CandidateOut
 from app.scoring.statements import STATEMENTS
 from app.scoring.scales import SCALES, CLINICAL_SCALES, INTERPRETATIONS
+from app.pdf.render import render_candidate_pdf
 from app.deps import get_current_hr
 
 router = APIRouter(prefix="/api/candidates", tags=["candidates"])
@@ -78,3 +79,20 @@ def get_candidate(candidate_id: str, db: Session = Depends(get_db), hr=Depends(g
     if candidate is None:
         raise HTTPException(status_code=404, detail="not found")
     return to_out(candidate, db)
+
+
+@router.get("/{candidate_id}/pdf")
+def get_candidate_pdf(candidate_id: str, db: Session = Depends(get_db), hr=Depends(get_current_hr)):
+    cid = parse_id(candidate_id)
+    candidate = db.query(Candidate).filter(Candidate.id == cid).first()
+    if candidate is None or candidate.result is None:
+        raise HTTPException(status_code=404, detail="not found")
+
+    candidate_out = to_out(candidate, db)
+    pdf_bytes = render_candidate_pdf(candidate_out)
+
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": 'attachment; filename="candidate-{}.pdf"'.format(cid)},
+    )
