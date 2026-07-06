@@ -34,3 +34,16 @@ class InviteDataResponse(BaseModel):
     candidateName: str
     position: str
     statements: List[StatementOut]
+
+
+class AnswerIn(BaseModel):
+    statementId: int
+    value: str
+
+
+class SubmitPayload(BaseModel):
+    answers: List[AnswerIn]
+
+
+class SubmitResponse(BaseModel):
+    ok: bool

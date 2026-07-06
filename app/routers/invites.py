@@ -6,9 +6,16 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models import Candidate, Invite
-from app.schemas import InviteCreateRequest, InviteCreateResponse, InviteDataResponse
+from app.models import Candidate, Invite, Answer, Result
+from app.schemas import (
+    InviteCreateRequest,
+    InviteCreateResponse,
+    InviteDataResponse,
+    SubmitPayload,
+    SubmitResponse,
+)
 from app.scoring.statements import get_statements
+from app.scoring.engine import compute_result
 from app.deps import get_current_hr
 
 router = APIRouter(prefix="/api/invites", tags=["invites"])
@@ -70,3 +77,48 @@ def get_invite(token: str, db: Session = Depends(get_db)):
         position=candidate.position,
         statements=statements,
     )
+
+
+@router.post("/{token}/submit", response_model=SubmitResponse)
+def submit_invite(token: str, payload: SubmitPayload, db: Session = Depends(get_db)):
+    invite = db.query(Invite).filter(Invite.token == token).first()
+    if invite is None:
+        raise HTTPException(status_code=404, detail="invalid")
+
+    if invite.used_at is not None:
+        raise HTTPException(status_code=409, detail="used")
+
+    if invite.expires_at < datetime.datetime.utcnow():
+        raise HTTPException(status_code=410, detail="expired")
+
+    candidate = invite.candidate
+
+    answers = {}
+    for a in payload.answers:
+        db.add(Answer(candidate_id=candidate.id, statement_id=a.statementId, value=(a.value == "true")))
+        answers[a.statementId] = a.value == "true"
+
+    now = datetime.datetime.utcnow()
+    duration_min = None
+    if invite.started_at is not None:
+        duration_min = int((now - invite.started_at).total_seconds() // 60)
+
+    scored = compute_result(answers, candidate.gender)
+
+    result = Result(
+        candidate_id=candidate.id,
+        raw=scored["raw"],
+        profile=scored["profile"],
+        validity=scored["validity"],
+    )
+    db.add(result)
+
+    candidate.status = "completed"
+    candidate.completed_at = now
+    candidate.duration_min = duration_min
+
+    invite.used_at = now
+
+    db.commit()
+
+    return SubmitResponse(ok=True)
