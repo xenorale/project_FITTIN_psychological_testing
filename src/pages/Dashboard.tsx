@@ -1,6 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { candidates as allCandidates, invites as invitesData, positionsList } from '../mock'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
+import { api } from '../api/client'
+import { createInvite } from '../api/invites'
+import { Candidate, positionsList } from '../mock'
 
 function initials(name: string) {
   const p = name.split(' ')
@@ -17,17 +21,37 @@ function statusMeta(s: string) {
 
 export default function Dashboard() {
   const nav = useNavigate()
+  const queryClient = useQueryClient()
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState('all')
   const [modal, setModal] = useState(false)
   const [invName, setInvName] = useState('')
   const [invEmail, setInvEmail] = useState('')
   const [invPos, setInvPos] = useState(positionsList[0])
+  const [invGender, setInvGender] = useState<'m' | 'f' | ''>('')
   const [genLink, setGenLink] = useState('')
+  const [genLoading, setGenLoading] = useState(false)
+  const [genError, setGenError] = useState('')
   const [copied, setCopied] = useState(false)
-  const [invites, setInvites] = useState(invitesData)
+  const [invites, setInvites] = useState<{ id: string; candidate: string; position: string; token: string; createdAt: string; used: boolean }[]>([])
 
   const hrName = localStorage.getItem('hr_name') || 'HR-менеджер'
+
+  const candidatesQuery = useQuery({
+    queryKey: ['candidates'],
+    queryFn: async () => {
+      const { data } = await api.get<Candidate[]>('/api/candidates')
+      return data
+    }
+  })
+
+  useEffect(() => {
+    if (axios.isAxiosError(candidatesQuery.error) && candidatesQuery.error.response?.status === 401) {
+      logout()
+    }
+  }, [candidatesQuery.error])
+
+  const allCandidates = candidatesQuery.data || []
 
   const total = allCandidates.length
   const done = allCandidates.filter(c => c.status === 'completed').length
@@ -53,13 +77,21 @@ export default function Dashboard() {
     nav('/')
   }
 
-  function generate() {
-    const token = Math.random().toString(36).slice(2, 12)
-    const link = 'https://smil.fittin.ru/t/' + token
-    setGenLink(link)
-    setCopied(false)
-    const newInv = { id: 'inv-' + Math.floor(Math.random() * 1000), candidate: invName || '—', position: invPos, token: token, createdAt: '2026-07-05', used: false }
-    setInvites([newInv, ...invites])
+  async function generate() {
+    if (invGender === '') return
+    setGenLoading(true)
+    setGenError('')
+    try {
+      const result = await createInvite({ candidateName: invName, email: invEmail, position: invPos, gender: invGender })
+      setGenLink(result.link)
+      setCopied(false)
+      setInvites([{ id: result.token, candidate: invName || '—', position: invPos, token: result.token, createdAt: new Date().toISOString().slice(0, 10), used: false }, ...invites])
+      queryClient.invalidateQueries({ queryKey: ['candidates'] })
+    } catch (error) {
+      setGenError('Не удалось создать приглашение')
+    } finally {
+      setGenLoading(false)
+    }
   }
 
   function copyLink() {
@@ -72,7 +104,20 @@ export default function Dashboard() {
     setGenLink('')
     setInvName('')
     setInvEmail('')
+    setInvGender('')
+    setGenError('')
     setCopied(false)
+  }
+
+  if (candidatesQuery.isLoading) {
+    return <Loader />
+  }
+
+  if (candidatesQuery.isError) {
+    if (axios.isAxiosError(candidatesQuery.error) && candidatesQuery.error.response?.status === 401) {
+      return <Loader />
+    }
+    return <ErrorScreen />
   }
 
   return (
@@ -251,12 +296,30 @@ export default function Dashboard() {
             <input className="field" value={invEmail} onChange={e => setInvEmail(e.target.value)} placeholder="ivan@example.com" style={{ marginBottom: 13 }} />
 
             <label style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 6 }}>Вакансия</label>
-            <select value={invPos} onChange={e => setInvPos(e.target.value)} className="field" style={{ marginBottom: 19, cursor: 'pointer' }}>
+            <select value={invPos} onChange={e => setInvPos(e.target.value)} className="field" style={{ marginBottom: 13, cursor: 'pointer' }}>
               {positionsList.map(p => <option key={p} value={p}>{p}</option>)}
             </select>
 
+            <label style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: 6 }}>Пол кандидата</label>
+            <div style={{ display: 'flex', gap: 16, marginBottom: 19 }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, cursor: 'pointer' }}>
+                <input type="radio" name="gender" checked={invGender === 'm'} onChange={() => setInvGender('m')} /> Мужской
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, cursor: 'pointer' }}>
+                <input type="radio" name="gender" checked={invGender === 'f'} onChange={() => setInvGender('f')} /> Женский
+              </label>
+            </div>
+
+            {genError !== '' && (
+              <div style={{ color: 'var(--red)', fontSize: 12, marginBottom: 12 }}>{genError}</div>
+            )}
+
             {genLink === '' ? (
-              <button className="btn btn-primary" onClick={generate} style={{ width: '100%', justifyContent: 'center', padding: 11 }}><LinkIcon /> Сгенерировать ссылку</button>
+              <button className="btn btn-primary" onClick={generate} disabled={invGender === '' || genLoading} style={{ width: '100%', justifyContent: 'center', padding: 11 }}>
+                {genLoading
+                  ? <span style={{ width: 15, height: 15, border: '2px solid rgba(255,255,255,0.4)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+                  : <><LinkIcon /> Сгенерировать ссылку</>}
+              </button>
             ) : (
               <div>
                 <div style={{ display: 'flex', gap: 8 }}>
@@ -288,6 +351,23 @@ function Stat(props: any) {
 function Cnt(props: any) {
   return (
     <span style={{ fontSize: 12, padding: '0px 6px', borderRadius: 20, background: props.active ? 'rgba(255,255,255,0.25)' : '#eceef1', color: props.active ? '#fff' : 'var(--muted)' }}>{props.n}</span>
+  )
+}
+
+function Loader() {
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
+      <span style={{ width: 26, height: 26, border: '3px solid #e2e4e9', borderTopColor: 'var(--orange)', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+      <div style={{ fontSize: 12, color: 'var(--muted)' }}>Загружаем кандидатов…</div>
+    </div>
+  )
+}
+
+function ErrorScreen() {
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 12, textAlign: 'center', padding: 20 }}>
+      <div style={{ fontSize: 15, color: 'var(--muted)' }}>Не удалось загрузить список кандидатов</div>
+    </div>
   )
 }
 
