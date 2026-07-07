@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { api } from '../api/client'
 
 export default function Login() {
   const nav = useNavigate()
@@ -9,7 +11,7 @@ export default function Login() {
   const [err, setErr] = useState('')
   const [loading, setLoading] = useState(false)
 
-  function submit(e: any) {
+  async function submit(e: any) {
     e.preventDefault()
     setErr('')
     if (email.trim() === '' || pass.trim() === '') {
@@ -21,11 +23,20 @@ export default function Login() {
       return
     }
     setLoading(true)
-    setTimeout(() => {
-      localStorage.setItem('hr_token', 'demo-jwt-token-' + Date.now())
-      localStorage.setItem('hr_name', 'Ирина Соловьёва')
+    try {
+      const { data } = await api.post('/api/auth/login', { email, password: pass })
+      localStorage.setItem('hr_token', data.token)
+      localStorage.setItem('hr_name', data.hrName)
       nav('/dashboard')
-    }, 500)
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        setErr('неверная почта или пароль')
+      } else {
+        setErr('не удалось связаться с сервером')
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -61,10 +72,6 @@ export default function Login() {
           <button className="btn btn-primary" type="submit" disabled={loading} style={{ width: '100%', justifyContent: 'center', marginTop: 19, padding: '12px' }}>
             {loading ? <span style={{ width: 15, height: 15, border: '2px solid rgba(255,255,255,0.4)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} /> : 'Войти'}
           </button>
-
-          <div style={{ marginTop: 16, padding: '10px 12px', borderRadius: 8, background: '#f4f5f7', border: '1px solid var(--line)', fontSize: 12, color: 'var(--muted)' }}>
-            Демо-доступ: любая почта и пароль.
-          </div>
         </form>
 
         <div style={{ fontSize: 12, color: '#9498a0', textAlign: 'center', marginTop: 17 }}>© 2026 FITTIN · внутренний инструмент найма</div>
