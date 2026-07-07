@@ -1,7 +1,27 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceArea, ReferenceLine } from 'recharts'
-import { candidates, scales, interpretations } from '../mock'
+import { api } from '../api/client'
+import { scales } from '../mock'
+
+type CandidateDetail = {
+  id: string
+  name: string
+  email: string
+  position: string
+  status: string
+  gender: 'm' | 'f'
+  completedAt: string | null
+  durationMin: number | null
+  validity: 'valid' | 'doubtful' | null
+  answersDone: number
+  answersTotal: number
+  profile: any
+  raw: any
+  interpretation: { code: string; name: string; t: number; text: string }[] | null
+}
 
 function initials(name: string) {
   const p = name.split(' ')
@@ -51,9 +71,36 @@ export default function Candidate() {
   const nav = useNavigate()
   const [toast, setToast] = useState('')
 
-  const person = candidates.find(c => c.id === id)
+  const query = useQuery({
+    queryKey: ['candidate', id],
+    queryFn: async () => {
+      const { data } = await api.get<CandidateDetail>(`/api/candidates/${id}`)
+      return data
+    },
+    retry: false
+  })
 
-  if (!person || !person.profile) {
+  if (query.isLoading) {
+    return <Loader />
+  }
+
+  if (query.isError) {
+    const status = axios.isAxiosError(query.error) ? query.error.response?.status : undefined
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 15 }}>
+        <div style={{ color: 'var(--muted)', fontSize: 15 }}>{status === 404 ? 'Кандидат не найден.' : 'Не удалось загрузить карточку кандидата.'}</div>
+        <button className="btn" onClick={() => nav('/dashboard')}>← К списку</button>
+      </div>
+    )
+  }
+
+  if (!query.data) {
+    return <Loader />
+  }
+
+  const person = query.data
+
+  if (!person.profile) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 15 }}>
         <div style={{ color: 'var(--muted)', fontSize: 15 }}>Профиль недоступен — тест ещё не завершён.</div>
@@ -64,7 +111,7 @@ export default function Candidate() {
 
   const chartData = scales.map(s => ({ code: s.code, name: s.name, t: person.profile[s.code], raw: person.raw[s.code] }))
   const clinical = scales.filter(s => s.type === 'clinical')
-  const peaks = clinical.filter(s => person.profile[s.code] >= 70).sort((a, b) => person.profile[b.code] - person.profile[a.code])
+  const interpretation = person.interpretation || []
   const leading = [...clinical].sort((a, b) => person.profile[b.code] - person.profile[a.code]).slice(0, 3)
 
   function exportPdf() {
@@ -210,18 +257,18 @@ export default function Candidate() {
           <h2 style={{ fontSize: 22, marginBottom: 4 }}>Текстовая интерпретация</h2>
           <p style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 17 }}>Автоматически по повышенным шкалам профиля. Не является клиническим диагнозом.</p>
 
-          {peaks.length === 0 ? (
+          {interpretation.length === 0 ? (
             <div style={{ color: 'var(--muted)', fontSize: 15 }}>Выраженных пиков (T &gt; 70) в профиле нет — усреднённый, сглаженный тип реагирования без явных акцентуаций.</div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 15 }} className="interp-grid">
-              {peaks.map(s => (
-                <div key={s.code} style={{ padding: '15px 17px', borderRadius: 8, border: '1px solid var(--line)', background: '#fafbfc' }}>
+              {interpretation.map(item => (
+                <div key={item.code} style={{ padding: '15px 17px', borderRadius: 8, border: '1px solid var(--line)', background: '#fafbfc' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 8 }}>
-                    <span style={{ width: 28, height: 28, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15, color: '#dc4438', background: '#fbeceb' }}>{s.code}</span>
-                    <span style={{ fontWeight: 600, fontSize: 15 }}>{s.name}</span>
-                    <span style={{ marginLeft: 'auto', fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-head)', color: '#dc4438' }}>T {person.profile[s.code]}</span>
+                    <span style={{ width: 28, height: 28, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: 15, color: '#dc4438', background: '#fbeceb' }}>{item.code}</span>
+                    <span style={{ fontWeight: 600, fontSize: 15 }}>{item.name}</span>
+                    <span style={{ marginLeft: 'auto', fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-head)', color: '#dc4438' }}>T {item.t}</span>
                   </div>
-                  <p style={{ fontSize: 15, color: '#4a4d54', lineHeight: 1.55 }}>{interpretations[s.code]}</p>
+                  <p style={{ fontSize: 15, color: '#4a4d54', lineHeight: 1.55 }}>{item.text}</p>
                 </div>
               ))}
             </div>
@@ -275,6 +322,15 @@ function Legend(props: any) {
       <span style={{ width: 15, height: props.dash ? 0 : 3, borderRadius: 3, background: props.dash ? 'transparent' : props.color, borderTop: props.dash ? '2px dashed ' + props.color : 'none' }} />
       {props.text}
     </span>
+  )
+}
+
+function Loader() {
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
+      <span style={{ width: 26, height: 26, border: '3px solid #e2e4e9', borderTopColor: 'var(--orange)', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+      <div style={{ fontSize: 12, color: 'var(--muted)' }}>Загружаем карточку кандидата…</div>
+    </div>
   )
 }
 
