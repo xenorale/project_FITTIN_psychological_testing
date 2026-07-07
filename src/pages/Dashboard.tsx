@@ -30,6 +30,7 @@ export default function Dashboard() {
   const [invPos, setInvPos] = useState(positionsList[0])
   const [invGender, setInvGender] = useState<'m' | 'f' | ''>('')
   const [genLink, setGenLink] = useState('')
+  const [genToken, setGenToken] = useState('')
   const [genLoading, setGenLoading] = useState(false)
   const [genError, setGenError] = useState('')
   const [copied, setCopied] = useState(false)
@@ -83,7 +84,8 @@ export default function Dashboard() {
     setGenError('')
     try {
       const result = await createInvite({ candidateName: invName, email: invEmail, position: invPos, gender: invGender })
-      setGenLink(result.link)
+      setGenToken(result.token)
+      setGenLink(window.location.origin + '/test/' + result.token)
       setCopied(false)
       setInvites([{ id: result.token, candidate: invName || '—', position: invPos, token: result.token, createdAt: new Date().toISOString().slice(0, 10), used: false }, ...invites])
       queryClient.invalidateQueries({ queryKey: ['candidates'] })
@@ -102,6 +104,7 @@ export default function Dashboard() {
   function closeModal() {
     setModal(false)
     setGenLink('')
+    setGenToken('')
     setInvName('')
     setInvEmail('')
     setInvGender('')
@@ -328,6 +331,7 @@ export default function Dashboard() {
                     {copied ? <><CheckSmall /> Готово</> : <><CopyIcon /> Копировать</>}
                   </button>
                 </div>
+                <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>Токен: <span style={{ fontFamily: 'monospace', color: 'var(--ink)' }}>{genToken}</span></p>
                 <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 11, lineHeight: 1.5 }}>Ссылка одноразовая и привязана к кандидату. Отправьте её на почту — после прохождения профиль появится в списке.</p>
               </div>
             )}
