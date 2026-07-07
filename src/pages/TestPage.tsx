@@ -7,17 +7,6 @@ import StatementCard from '../components/StatementCard'
 import ProgressBar from '../components/ProgressBar'
 import InvalidInvitePage from './InvalidInvitePage'
 
-function shuffle(list: Statement[]) {
-  const arr = list.slice()
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    const t = arr[i]
-    arr[i] = arr[j]
-    arr[j] = t
-  }
-  return arr
-}
-
 export default function TestPage() {
   const { inviteToken } = useParams()
   const token = inviteToken || ''
@@ -35,7 +24,7 @@ export default function TestPage() {
 
   useEffect(() => {
     if (query.data) {
-      setOrder(shuffle(query.data.statements))
+      setOrder(query.data.statements)
       setAnswers({})
       setPhase('intro')
       setIndex(0)
