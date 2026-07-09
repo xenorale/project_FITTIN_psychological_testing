@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceArea, ReferenceLine } from 'recharts'
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceArea, ReferenceLine, Cell } from 'recharts'
 import { api } from '../api/client'
 import { scales } from '../mock'
 
@@ -182,19 +182,35 @@ export default function Candidate() {
 
           <div style={{ width: '100%', height: 320 }}>
             <ResponsiveContainer>
-              <LineChart data={chartData} margin={{ top: 16, right: 10, left: -12, bottom: 4 }}>
-                <CartesianGrid stroke="#e8eaee" vertical={false} />
-                <ReferenceArea y1={30} y2={70} fill="#1f9d63" fillOpacity={0.06} />
-                <ReferenceLine y={50} stroke="#d5d8df" strokeDasharray="2 4" />
-                <ReferenceLine y={70} stroke="#d98200" strokeOpacity={0.7} strokeDasharray="5 5" />
-                <XAxis dataKey="code" tick={{ fill: '#3a3d44', fontSize: 12, fontFamily: 'Space Grotesk' }} axisLine={{ stroke: '#d5d8df' }} tickLine={false} />
-                <YAxis domain={[20, 110]} ticks={[30, 50, 70, 90, 110]} tick={{ fill: '#6d717a', fontSize: 12 }} axisLine={false} tickLine={false} width={36} />
-                <Tooltip content={<TipBox />} cursor={{ stroke: '#ff5a1f', strokeOpacity: 0.35, strokeWidth: 1 }} />
-                <Line type="monotone" dataKey="t" stroke="#ff5a1f" strokeWidth={2.6} dot={<CustomDot />} activeDot={{ r: 6, fill: '#ff5a1f', stroke: '#fff', strokeWidth: 2 }} />
-              </LineChart>
+              {person.status === 'completed' ? (
+                <BarChart data={chartData} margin={{ top: 16, right: 10, left: -12, bottom: 4 }} barCategoryGap="20%">
+                  <CartesianGrid stroke="#e8eaee" vertical={false} />
+                  <ReferenceArea y1={30} y2={70} fill="#1f9d63" fillOpacity={0.06} />
+                  <ReferenceLine y={50} stroke="#d5d8df" strokeDasharray="2 4" />
+                  <ReferenceLine y={70} stroke="#d98200" strokeOpacity={0.7} strokeDasharray="5 5" />
+                  <XAxis dataKey="code" tick={{ fill: '#3a3d44', fontSize: 12, fontFamily: 'Space Grotesk' }} axisLine={{ stroke: '#d5d8df' }} tickLine={false} />
+                  <YAxis domain={[20, 110]} ticks={[30, 50, 70, 90, 110]} tick={{ fill: '#6d717a', fontSize: 12 }} axisLine={false} tickLine={false} width={36} />
+                  <Tooltip content={<TipBox />} cursor={{ fill: '#ff5a1f', fillOpacity: 0.05 }} />
+                  <Bar dataKey="t" radius={[4, 4, 0, 0]}>
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={tColor(entry.t)} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              ) : (
+                <LineChart data={chartData} margin={{ top: 16, right: 10, left: -12, bottom: 4 }}>
+                  <CartesianGrid stroke="#e8eaee" vertical={false} />
+                  <ReferenceArea y1={30} y2={70} fill="#1f9d63" fillOpacity={0.06} />
+                  <ReferenceLine y={50} stroke="#d5d8df" strokeDasharray="2 4" />
+                  <ReferenceLine y={70} stroke="#d98200" strokeOpacity={0.7} strokeDasharray="5 5" />
+                  <XAxis dataKey="code" tick={{ fill: '#3a3d44', fontSize: 12, fontFamily: 'Space Grotesk' }} axisLine={{ stroke: '#d5d8df' }} tickLine={false} />
+                  <YAxis domain={[20, 110]} ticks={[30, 50, 70, 90, 110]} tick={{ fill: '#6d717a', fontSize: 12 }} axisLine={false} tickLine={false} width={36} />
+                  <Tooltip content={<TipBox />} cursor={{ stroke: '#ff5a1f', strokeOpacity: 0.35, strokeWidth: 1 }} />
+                  <Line type="monotone" dataKey="t" stroke="#ff5a1f" strokeWidth={2.6} dot={<CustomDot />} activeDot={{ r: 6, fill: '#ff5a1f', stroke: '#fff', strokeWidth: 2 }} />
+                </LineChart>
+              )}
             </ResponsiveContainer>
           </div>
-        </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 336px', gap: 20 }} className="bottom-grid">
           <div className="card" style={{ padding: '18px 20px' }}>
