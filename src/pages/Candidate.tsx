@@ -211,6 +211,7 @@ export default function Candidate() {
               )}
             </ResponsiveContainer>
           </div>
+        </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 336px', gap: 20 }} className="bottom-grid">
           <div className="card" style={{ padding: '18px 20px' }}>
