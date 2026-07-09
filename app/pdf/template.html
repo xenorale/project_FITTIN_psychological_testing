@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: sans-serif; color: #1d1f24; padding: 20px; }
+  h1 { font-size: 20px; margin-bottom: 2px; }
+  .muted { color: #6d717a; font-size: 11px; }
+  .badge { display: inline-block; padding: 3px 8px; border-radius: 10px; font-size: 11px; margin-top: 6px; }
+  .valid { background: #e7f6ee; color: #1f9d63; }
+  .doubtful { background: #fdf1e0; color: #d98200; }
+  table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  th, td { text-align: left; padding: 5px 8px; font-size: 12px; border-bottom: 1px solid #e2e4e9; }
+  th { color: #6d717a; text-transform: uppercase; font-size: 10px; }
+  .peak { color: #dc4438; font-weight: bold; }
+  .section-title { font-size: 15px; margin-top: 22px; margin-bottom: 8px; }
+  .interp { padding: 10px 12px; border: 1px solid #e2e4e9; border-radius: 8px; margin-bottom: 8px; }
+  .footer { margin-top: 26px; font-size: 10px; color: #9498a0; text-align: center; }
+</style>
+</head>
+<body>
+  <h1>__NAME__</h1>
+  <div class="muted">__POSITION__ &middot; __EMAIL__</div>
+  <div class="badge __VALIDITY_CLASS__">__VALIDITY_LABEL__</div>
+
+  <table>
+    <tr><th>№</th><th>Шкала</th><th>Сырой</th><th>T-балл</th></tr>
+    __SCALE_ROWS__
+  </table>
+
+  <div class="section-title">Текстовая интерпретация</div>
+  __INTERPRETATION_BLOCK__
+
+  <div class="footer">Методика СМИЛ (Л.Н. Собчик) &middot; сформировано автоматически &middot; FITTIN</div>
+</body>
+</html>
